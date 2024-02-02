@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "yarn build && neocities push out",
-    "deploy:clean": "rm -rf .next && yarn build && neocities push out"
+    "deploy": "rm -rf .next &&  yarn && yarn build && neocities push out"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",
@@ -18,13 +17,12 @@
     "@supabase/supabase-js": "^2.39.3",
     "@types/mdast": "^4.0.3",
     "@types/mdx": "^2.0.11",
-    "@types/react-copy-to-clipboard": "^5.0.7",
     "next": "14.1.0",
     "react": "^18",
-    "react-code-blocks": "^0.1.6",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -33,6 +31,7 @@
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "react-code-blocks": "^0.1.6"
   }
 }
