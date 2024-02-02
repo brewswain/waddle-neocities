@@ -2,11 +2,6 @@ import FriendBadge from "./FriendBadge";
 
 const FriendBadgeContainer = () => {
   const temporaryBadgeData = [
-    // {
-    //   blogUrl: "https://waddle.neocities.org",
-    //   imageUrl: "https://i.imgur.com/BwkY6WR.png",
-    //   blogName: "blee",
-    // },
     {
       blogUrl: "https://seafare.neocities.org/",
       imageUrl: "https://i.imgur.com/WAFA65o.png",
@@ -15,7 +10,7 @@ const FriendBadgeContainer = () => {
     {
       blogUrl: "https://killdragons.neocities.org",
       imageUrl:
-        "https://killdragons.neocities.org/images/killdragons_button2.png",
+        "https://killdragons.neocities.org/images/killdragons_button3.png",
       blogName: "cody",
     },
   ];
