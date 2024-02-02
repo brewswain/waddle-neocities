@@ -24,8 +24,7 @@ const MyFriendBadge = () => {
         imagueUrl={temporaryBadgeData.imageUrl}
       />
 
-      <div className="codeblock__container max-w-[30ch] mt-1">
-        {" "}
+      <figure className="codeblock__container max-w-[30ch] mt-1">
         <CopyBlock
           text={codeSnippet}
           language="html"
@@ -33,7 +32,7 @@ const MyFriendBadge = () => {
           theme={dracula}
           codeBlock
         />
-      </div>
+      </figure>
     </div>
   );
 };
