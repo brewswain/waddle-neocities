@@ -19,6 +19,8 @@ const nextConfig = {
   //   appDir: true,
   // },
   // Optionally, add any other Next.js config below
+  output: "export",
+
   reactStrictMode: true,
   images: {
     remotePatterns: [
