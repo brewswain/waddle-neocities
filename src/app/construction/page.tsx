@@ -1,11 +1,12 @@
+import Link from "next/link";
+
 import { createClient } from "@/utils/supabase/client";
-import Image from "next/image";
 
 import CheckListItem from "@/components/ChecklistItem";
-
-import backgroundImage from "../../../assets/64d4520749a58717c1f21a69_Pondering.svg";
 import FriendBadgeContainer from "@/components/FriendBadges/FriendBadgeContainer";
 import MyFriendBadge from "@/components/FriendBadges/MyFriendBadge";
+
+import backgroundImage from "../../../assets/64d4520749a58717c1f21a69_Pondering.svg";
 
 export const revalidate = 60;
 const ConstructionPage = async () => {
@@ -20,7 +21,7 @@ const ConstructionPage = async () => {
   });
 
   return (
-    <div
+    <main
       className="construction__checklist flex flex-col min-h-dvh items-center bg-pink-300"
       style={{
         backgroundImage: `url(${backgroundImage.src})`,
@@ -33,12 +34,20 @@ const ConstructionPage = async () => {
     >
       <h3
         aria-label="announcement header"
-        className="w-full text-center m-4 text-xl  bg-slate-100 max-w-[50ch] rounded"
+        className="w-full text-center m-4 text-xl  bg-slate-100 max-w-[50ch] rounded "
       >
         Hey, site&apos;s still under construction so expect everything to be
         broken, but if you&apos;d like to see it take shape feel free to check
         back every now and then! 👷🏽
       </h3>
+
+      <Link
+        href="/dev-blog"
+        className="text-2xl bg-slate-50 p-2 rounded  hover:bg-blue-200 "
+      >
+        I made the framework for starting a tiny dev blog! still not responsive
+        or anything yet though 😔😔
+      </Link>
 
       <MyFriendBadge />
       <FriendBadgeContainer />
@@ -65,7 +74,7 @@ const ConstructionPage = async () => {
             : null}
         </ul>
       </article>
-    </div>
+    </main>
   );
 };
 
