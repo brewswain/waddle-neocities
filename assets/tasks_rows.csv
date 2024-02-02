@@ -1,0 +1,8 @@
+id,created_at,task
+1,2024-02-01 16:16:45.244856+00,Add local persistence to this list so that visitors can click without affecting me
+2,2024-02-01 16:17:01.943432+00,Mobile first Home layout
+3,2024-02-01 16:17:11.015491+00,"Components need to be built (stuff like a custom button template, etc)"
+4,2024-02-01 16:17:18.949863+00,Overall design needs to be thought about
+5,2024-02-01 16:17:29.487995+00,"Sections...I&apos;m still unsure of what I want to build on here to chat about first, I&apos;m thinking pokemon, music, and coding till I figure out other stuff. Maybe something with books?"
+6,2024-02-01 16:17:38.877543+00,"Navigation ideas. Honestly, a traditional navbar seems fine to me for v1"
+7,2024-02-01 16:17:48.320738+00,"Once design is kinda handled, work on backend and API. Maybe we have our db set to supabase since I tend to just use mongo"
