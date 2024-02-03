@@ -441,7 +441,9 @@ Cya!
 <Link href="/">Home</Link>
 
 export default ({ children }) => (
-  <div className="bg-blue-300 flex justify-center">
-    <ConsoleCowboy>{children}</ConsoleCowboy>
+  <div className="bg-blue-400 sm:flex justify-center">
+    <div className="prose sm:flex sm:justify-center">
+      <ConsoleCowboy>{children}</ConsoleCowboy>
+    </div>
   </div>
 );
