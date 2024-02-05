@@ -1,6 +1,8 @@
-import Link from "next/link";
-import Image from "next/image";
-import ConsoleCowboy from "../../blog-templates/ConsoleCowBoy";
+---
+title: "The Scaffold"
+publishDate: "February 2nd, 2024"
+id: 1
+---
 
 # 01\_\_The Scaffold
 
@@ -35,7 +37,7 @@ For now, let's look at my project structure:
 
 <img
   src="/dev_diaries/01_the_scaffold/01_project_structure.png"
-  className="max-w-[300px] self-center"
+  style={{ maxWidth: 300, alignSelf: "center" }}
 />
 
 > Just to prevent this from being a super long image, i'll show the `src` and root level stuff, and not bother with stuff like the `public`, or `out` folders etc.
@@ -44,7 +46,8 @@ The `app` folder itself is where all my routing/page generation actually takes s
 
 <img
   src="/dev_diaries/01_the_scaffold/02_app_structure.png"
-  className="max-w-[300px] self-center"
+    style={{ maxWidth: 300, alignSelf: "center" }}
+
 />
 If you were to glance at my urls, you'd see the endpoints mirror the folders, which
 is one of my fave things that Next does for me!
@@ -455,13 +458,3 @@ and it'd auto create a new button, with layout etc already done. Also, in the fu
 So yeah. thanks for surviving, and look forward to seeing more as I make more progress! Chapter 2 will be about how I worked MDX into the site, as well as all the bloody problems it gave me 😐.
 
 Cya!
-
-<Link href="/">Home</Link>
-
-export default ({ children }) => (
-  <div className="bg-blue-400 sm:flex justify-center">
-    <div className="prose sm:flex sm:justify-center">
-      <ConsoleCowboy>{children}</ConsoleCowboy>
-    </div>
-  </div>
-);
