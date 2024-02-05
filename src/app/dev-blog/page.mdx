@@ -248,7 +248,25 @@ return a.checked === b.checked ? -1 : a ? 0 : 1;
 }
 ```
 
-This block simply hits up our supabase `tasks` table, and sorts it, into a nice, cute lil variable called `sortedTasks`.
+This block simply hits up our supabase `tasks` table, and sorts it, into a nice, cute lil variable called `sortedTasks`. Just in case you have no idea what this bit does:
+
+```js
+a.checked === b.checked ? -1 : a ? 0 : 1;
+```
+
+It's way less complex than it looks, this is just shorthand for an if-else statement! This' called using [ternary operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator) and in this case, it's literally just saying:
+
+```js
+if (a.checked === b.checked) {
+  return -1;
+} else if (a.checked) {
+  return 0;
+} else {
+  return 1;
+}
+```
+
+So yeah, while the above if/else is honestly easier to read, ternary tends to be my de-facto approach, although it DOES get nasty when it's doing nested operations like I did. But hey, in this case i just googled an implementation and copy-pasted it before adjusting the sorting to make sure that my checked/struck through items are sorted to be on the bottom of my tasks list!
 
 And then in this call:
 
@@ -311,7 +329,7 @@ const MyFriendBadge = () => {
 </a>`;
 
   return (
-    <div className="friend-badge__container m-4 flex flex-col gap-1 justify-center                          items-center">
+    <div className="friend-badge__container m-4 flex flex-col gap-1 justify-center items-center">
            
       <FriendBadge
         key={crypto.randomUUID()}
