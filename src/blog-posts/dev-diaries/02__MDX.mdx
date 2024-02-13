@@ -1,0 +1,285 @@
+---
+title: "MDX"
+publishDate: "February 11th, 2024"
+id: 2
+---
+
+# 02\_\_MDX
+
+Howdy!
+
+It's been a bit longer than expected, but (as foreshadowed in the previous post), I implemented something called [MDX](https://mdxjs.com/docs/what-is-mdx/) into the website.
+
+## But what _is_ MDX?
+
+Ok, to put it simply(aka to oversimplify it), MDX is a hybrid of Markdown and JSX, which is itself a hybrid of HTML and JavaScript. This means that we can do crazy shit like `import` statements, import Components, etc.
+
+## But _why_ is MDX?
+
+Simply put, I'm lazy, like 99% of programmers. I also like overcomplicating an implementation to _potentially_ save me effort down the road, thus giving myself more work than if i just manually parsed my own blog posts, like 157% of programmers. In theory, this is supposed to make my life way simpler, as I can just do this:
+
+```
+---
+title: "The Scaffold"
+publishDate: "February 2nd, 2024"
+id: 1
+---
+
+# 01\_\_The Scaffold
+
+Hi! Welcome to my dev diaries (_name subject to change_), where I go over my build process
+for this entire site! But first, let's get the elephant in the room out of the way.
+
+This site will probably be **HEAVILY** over-engineered for what it actually does,
+as I get a lot of enjoyment from it. If that goes against what you expect from a
+statically generated site on this amazing, and quite frankly, super important
+platform, then...welcome! I hope you can have fun with this stuff despite that!
+After all, I tend to think that as a creator of sorts being true to my own
+aesthetics and approaches to be of paramount importance, (Is it presumptuous
+of me to treat coding as art more than a science? Who knows, but I'm having
+fun with this approach and that's all I care about in this case), esp since
+it's been a while since I've made something for **me**, ya know?
+```
+
+And it'll all get rendered as a blogpost with styling etc based on my needs. And it works! After like 2 days straight of me pulling out my hair due to unforseen problems :) (that's me smiling)
+
+## Problems?
+
+Yeah so basically, whoever came up with the whole phrase "The Devil's in the details" needs to get cancelled cause the real thing is that the Devil's in the configuration. Like oh my god this is some bs type shit I had to go through.
+
+**FIRSTLY**, The official documentation on NextJS only gave me like 70% of what was needed, due to my stuff getting outdated. Fun! Secondly, I had to spend a ton of time retrofitting my config that worked perfectly fine before before the bloody `mdx` files would even be recognized and not cause my site to crash on load 😐 (that's me coassing).
+
+While the changes themselves weren't that wide-ranging, I basically had to change my config to this:
+
+```
+const withMDX = require("@next/mdx")({
+  // Optionally provide remark and rehype plugins
+  options: {
+    // If you use remark-gfm, you'll need to use next.config.mjs
+    // as the package is ESM only
+    // https://github.com/remarkjs/remark-gfm#install
+    remarkPlugins: [],
+    rehypePlugins: [],
+    // If you use `MDXProvider`, uncomment the following line.
+    // providerImportSource: "@mdx-js/react",
+  },
+});
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Configure pageExtensions to include md and mdx
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  // Optionally, add any other Next.js config below
+  output: "export",
+  trailingSlash: true,
+  reactStrictMode: true,
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      {
+        hostname: "i.imgur.com",
+      },
+      {
+        hostname: "*.neocities.org",
+      },
+    ],
+  },
+};
+
+// Merge MDX config with Next.js config
+module.exports = withMDX(nextConfig);
+
+```
+
+Where I had `withMDX` become a wrapper/hook that my regular NextJS config needed to be routed through (`module.exports = withMDX(nextConfig)`)
+
+That alone took a day cause of a bunch of problems it took to get us to be able to use `require` statements instead of `import`, and then to wrap properly without us getting a bunch of other errors with the `nextConfig` not being recognized after it was wrapped. That's why we used some currying with this statement:
+
+`const withMDX = require("@next/mdx")({--snip--})`
+
+Oh also we had to change our entire config file's extension etc ccause it was `commonJS`, etc. Trust me, huge pain in the ass. But yeah, once that was done, we then had to create a file in the root level of our `app` itself:
+
+```
+import type { MDXComponents } from "mdx/types";
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...components,
+  };
+}
+```
+
+In which case we'd pass a component that we wrap using this `mdx/types` library. So again, we're doing a kinda wrapper.
+
+## Ok, so it was annoying, what next?
+
+There was way more, but honestly, a blog of me just complaining the entire time is annoying to write, so let's pretend we didn't have any other weird problems (who was there for the great blog stuck on the left side of the screen? I see you), we gotta make this actually be worth the setup!
+
+```
+import Link from "next/link";
+
+import { PostMetaDataProp, getAllPostsMetaData } from "./utils";
+import PostCard from "@/components/PostCard/PostCard";
+
+const DevBlog = async () => {
+  const posts: PostMetaDataProp[] = await getAllPostsMetaData();
+
+  return (
+    <main className="bg-slate-100 min-h-dvh">
+      <section className="gap-4 p-4">
+        {posts.map((post) => {
+          return (
+            <Link href={`${post.slug}`} key={post.slug}>
+              <PostCard title={post.title} publishDate={post.publishDate} />
+            </Link>
+          );
+        })}
+      </section>
+    </main>
+  );
+};
+
+export default DevBlog;
+```
+
+This page above is super neat, cause what we're doing is looking for physical MDX files in our site's directory, and creating a cute lil card that details info about our post, and creating a Link to the blog post. How do we find the files? Well, thanks to [Hamed Bahram the god](https://www.youtube.com/watch?v=n2CV6f0vFr4&t=810s), I just `CTRL+C, CTRL+V` his implementation which is detailed in the link, and did that thing. The code is here:
+
+```
+import fs from "fs";
+import { compileMDX } from "next-mdx-remote/rsc";
+import path from "path";
+
+const contentDirectory = path.join(
+  process.cwd(),
+  "src",
+  "blog-posts",
+  "dev-diaries"
+);
+
+interface FrontMatter {
+  title: string;
+  publishDate: string;
+  id?: number;
+}
+
+export interface PostMetaDataProp extends FrontMatter {
+  slug: string;
+}
+
+export const getPostBySlug = async (slug: string) => {
+  const realSlug = slug.replace(/\.mdx$/, "");
+  const filePath = path.join(contentDirectory, `${realSlug}.mdx`);
+
+  const fileContent = fs.readFileSync(filePath, { encoding: "utf8" });
+
+  const { frontmatter, content } = await compileMDX<FrontMatter>({
+    source: fileContent,
+
+    options: { parseFrontmatter: true },
+  });
+
+  return {
+    meta: {
+      ...frontmatter,
+      slug: realSlug,
+      title: frontmatter.title,
+      publishDate: frontmatter.publishDate,
+      id: frontmatter.id,
+    },
+    content,
+  };
+};
+
+export const getAllPostsMetaData = async () => {
+  const files = fs.readdirSync(contentDirectory);
+
+  const posts: PostMetaDataProp[] = [];
+  for (const file of files) {
+    const { meta } = await getPostBySlug(file);
+    posts.push(meta);
+  }
+  return posts;
+};
+```
+
+Hamed explains it way better, but the TL;DR is basically that it looks for my files by filename/slug, gets the frontmatter:
+
+```
+---
+title: "The Scaffold"
+publishDate: "February 2nd, 2024"
+id: 1
+---
+```
+
+And gives us the content and frontmatter to be consumed by our MDX wrapper thingy. Also, My Page implementation is dynamic so I just need to create a new MDX file in the correct location and it SHOULD automatically create a new card to each available item on build. Pretty sweet! So yeah, by trying to save myself effort, I gave myself way more than I would have if I were humble, but if we don't live through hubris then wtf are we living for, respectfully. It's fun being frustrated by growing pains you get by working with unfamiliar concepts, ya know?
+
+OH AND BONUS CODE CAUSE I JUST REMEMBERED:
+
+```
+import Link from "next/link";
+
+import ConsoleCowBoy from "@/blog-templates/ConsoleCowBoy";
+
+import { getAllPostsMetaData, getPostBySlug } from "../utils";
+
+const getPageContent = async (slug: string) => {
+  const { meta, content } = await getPostBySlug(slug);
+  return { meta, content };
+};
+
+const BlogPostPage = async ({ params }: { params: { slug: string } }) => {
+  const { content } = await getPageContent(params.slug);
+
+  return (
+    <main>
+      <section className="blog__container bg-blue-400 sm:flex justify-center">
+        <div className="content__wrapper prose sm:flex sm:justify-center">
+          <ConsoleCowBoy>{content}</ConsoleCowBoy>
+        </div>
+      </section>
+      <Link href="/" className="fixed bottom-2 right-4">
+        <button
+          type="button"
+          className="bg-white rounded p-4 border border-black"
+        >
+          Home
+        </button>
+      </Link>
+    </main>
+  );
+};
+
+export async function generateStaticParams() {
+  const posts = await getAllPostsMetaData();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
+export default BlogPostPage;
+```
+
+This shows My actual Page renderer, which is pretty cool. `<ConsoleCowboy />` is yet another wrapper that I have dedicated to my dev blogs (Come one, we know that engineers shouldn't be able to name anything, and I needed a Neuromancer ref in here lbr):
+
+```
+import React from "react";
+
+interface ConsoleCowBoyProps {
+  children: JSX.Element;
+}
+const ConsoleCowBoy = ({ children }: ConsoleCowBoyProps) => {
+  return (
+    <article className="prose flex flex-col bg-slate-100 mt-4 p-4 lg:prose-xl">
+      {children}
+    </article>
+  );
+};
+
+export default ConsoleCowBoy;
+```
+
+Aite I'm actually out, thanks for reading yall! My next Step is to take a break from writing articles and more time on actually deciding on layout and aesthetic of the main site itself, since I think we have enough boilerplate and code/structure _direction_ to where adding features etc won't be harmful to our codebase health. See you next time!
+
+#### PS: As self-deprecating as I was about the amount of effort I put in vs the actual value I got, taking the time to do MDX was DEFINITELY worth as I primarily note-take in MarkDown, and The more posts I write the more time I save. For instance, this entire post took me maybe 20 minutes to write, and I don't need to worry about formatting or anything else, since when I build my site before deployment It'll straight up create the new pages etc for me! Plus I had fun so I won anyway. _teehee_

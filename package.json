@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "rm -rf .next &&  yarn && yarn build && neocities push out"
+    "deploy": "rm -rf .next &&  yarn && yarn build && neocities delete _next && neocities push out"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",

@@ -34,9 +34,11 @@ const BlogPostPage = async ({ params }: { params: { slug: string } }) => {
 export async function generateStaticParams() {
   const posts = await getAllPostsMetaData();
 
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts.map((post) => {
+    return {
+      slug: post.slug,
+    };
+  });
 }
 
 export default BlogPostPage;
