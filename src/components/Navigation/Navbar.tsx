@@ -6,21 +6,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { LayoutProps } from "@/app/consts/interfaces";
 
-const Navbar = ({ rowStart, rowEnd, columnStart, columnEnd }: LayoutProps) => {
+const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+
+  const positionVariants = {
+    rowStart: "sm:row-start-2",
+    rowEnd: "sm:row-end-1",
+    columnStart: "sm:col-start-1 md:col-start-3",
+    columnEnd: "sm:col-end-6 md:col-end-5",
+  };
 
   return (
     // TODO: Add active Links
     <nav
-      className={
-        "bg-slate-100 w-dvw flex flex-col sticky top-0 px-4 py-2 border border-pink-200 sm:flex sm:w-full sm:self-end"
-      }
-      style={{
-        gridRowStart: rowStart,
-        gridRowEnd: rowEnd,
-        gridColumnStart: columnStart,
-        gridColumnEnd: columnEnd,
-      }}
+      className={`bg-slate-100 w-dvw flex flex-col sticky top-0 px-4 py-2 border border-pink-200 sm:flex sm:w-full sm:self-end ${positionVariants.rowStart}  ${positionVariants.rowEnd} ${positionVariants.columnStart} ${positionVariants.columnEnd}`}
     >
       <button
         type="button"

@@ -24,7 +24,7 @@ const MyFriendBadge = () => {
         imagueUrl={temporaryBadgeData.imageUrl}
       />
 
-      <figure className="codeblock__container max-w-[15ch] mt-1 text-sm sm:max-w-[30ch] sm:text-base">
+      <figure className="codeblock__container max-w-[15ch] mt-1 text-sm sm:max-w-[30ch] md:text-base ">
         <CopyBlock
           text={codeSnippet}
           language="html"
