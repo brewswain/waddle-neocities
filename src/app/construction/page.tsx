@@ -4,6 +4,7 @@ import CheckListItem from "@/components/ChecklistItem";
 import FriendBadgeContainer from "@/components/FriendBadges/FriendBadgeContainer";
 
 import backgroundImage from "../../../assets/64d4520749a58717c1f21a69_Pondering.svg";
+import Navbar from "@/components/Navigation/Navbar";
 
 export const revalidate = 60;
 const ConstructionPage = async () => {
@@ -29,6 +30,8 @@ const ConstructionPage = async () => {
         height: "100%",
       }}
     >
+      <Navbar />
+
       <h3
         aria-label="announcement header"
         className="w-full text-center m-4 text-xl  bg-slate-100 max-w-[50ch] rounded "
