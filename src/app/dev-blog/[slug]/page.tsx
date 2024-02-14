@@ -3,6 +3,8 @@ import Link from "next/link";
 import ConsoleCowBoy from "@/blog-templates/ConsoleCowBoy";
 
 import { getAllPostsMetaData, getPostBySlug } from "../utils";
+import { useState } from "react";
+import ScrollableNavbar from "@/components/Navigation/ScrollableNavbar";
 
 const getPageContent = async (slug: string) => {
   const { meta, content } = await getPostBySlug(slug);
@@ -14,19 +16,12 @@ const BlogPostPage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <main>
-      <section className="blog__container bg-blue-400 sm:flex justify-center">
+      <ScrollableNavbar />
+      <section className="blog__container bg-blue-400 pt-12 sm:flex justify-center">
         <div className="content__wrapper prose sm:flex sm:justify-center">
           <ConsoleCowBoy>{content}</ConsoleCowBoy>
         </div>
       </section>
-      <Link href="/" className="fixed bottom-2 right-4">
-        <button
-          type="button"
-          className="bg-white rounded p-4 border border-black"
-        >
-          Home
-        </button>
-      </Link>
     </main>
   );
 };
