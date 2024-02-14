@@ -11,12 +11,12 @@ const MyFriendBadge = () => {
     blogName: "blee",
   };
 
-  const codeSnippet = ` <a href="https://waddle.neocities.org" target="_blank" rel="noreferrer">
-  <img src="https://i.imgur.com/BwkY6WR.png" alt="A button that links to blee's neocities blog" />
-  </a>`;
+  const codeSnippet = `<a href="https://waddle.neocities.org" target="_blank" rel="noreferrer">
+    <img src="https://i.imgur.com/BwkY6WR.png" alt="A button that links to blee's neocities blog" />
+</a>`;
 
   return (
-    <div className="friend-badge__container m-4 flex flex-col gap-1 justify-center items-center">
+    <article className="friend-badge__container m-4 flex flex-col gap-1 justify-center items-center">
       <FriendBadge
         key={crypto.randomUUID()}
         blogUrl={temporaryBadgeData.blogUrl}
@@ -24,7 +24,7 @@ const MyFriendBadge = () => {
         imagueUrl={temporaryBadgeData.imageUrl}
       />
 
-      <figure className="codeblock__container max-w-[30ch] mt-1">
+      <figure className="codeblock__container max-w-[15ch] mt-1 text-sm sm:max-w-[30ch] sm:text-base">
         <CopyBlock
           text={codeSnippet}
           language="html"
@@ -33,7 +33,7 @@ const MyFriendBadge = () => {
           codeBlock
         />
       </figure>
-    </div>
+    </article>
   );
 };
 
