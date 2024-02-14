@@ -4,16 +4,23 @@ import Link from "next/link";
 import NavLink from "./NavLink";
 import Image from "next/image";
 import { useState } from "react";
+import { LayoutProps } from "@/app/consts/interfaces";
 
-const Navbar = () => {
+const Navbar = ({ rowStart, rowEnd, columnStart, columnEnd }: LayoutProps) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
   return (
     // TODO: Add active Links
     <nav
       className={
-        "bg-slate-100 w-dvw flex flex-col sticky top-0 px-4 py-2 border border-pink-200 "
+        "bg-slate-100 w-dvw flex flex-col sticky top-0 px-4 py-2 border border-pink-200 sm:flex sm:w-full sm:self-end"
       }
+      style={{
+        gridRowStart: rowStart,
+        gridRowEnd: rowEnd,
+        gridColumnStart: columnStart,
+        gridColumnEnd: columnEnd,
+      }}
     >
       <button
         type="button"

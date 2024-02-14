@@ -1,10 +1,25 @@
 import Link from "next/link";
 
-const Preamble = () => {
+import { LayoutProps } from "@/app/consts/interfaces";
+
+const Preamble = ({
+  rowStart,
+  rowEnd,
+  columnStart,
+  columnEnd,
+}: LayoutProps) => {
   return (
     // TODO: change max height to a calc once I have the NavBar's height decided on, but for now the current max height is fine.
     // Also because we want overflow, we're prob gonna reduce the width of our cards a bit so that the user can scroll around our element
-    <article className="flex flex-col bg-slate-100 w-dvw overflow-auto max-h-dvh gap-4 p-4 border border-pink-200">
+    <article
+      className="flex flex-col bg-slate-100 w-dvw overflow-auto max-h-dvh gap-4 p-4 border border-pink-200 sm:w-full sm:h-full"
+      style={{
+        gridRowStart: rowStart,
+        gridRowEnd: rowEnd,
+        gridColumnStart: columnStart,
+        gridColumnEnd: columnEnd,
+      }}
+    >
       <p>Hey!</p>
       <p>
         If you like ramblings of whatever drew my interest at any given point in
