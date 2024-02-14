@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <Preamble />
       <ButtonContainer />
-      <ChatBox />
+      {/* <ChatBox /> */}
       <Footer />
     </main>
   );
