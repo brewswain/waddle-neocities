@@ -1,10 +1,7 @@
-import Link from "next/link";
-
 import { createClient } from "@/utils/supabase/client";
 
 import CheckListItem from "@/components/ChecklistItem";
 import FriendBadgeContainer from "@/components/FriendBadges/FriendBadgeContainer";
-import MyFriendBadge from "@/components/FriendBadges/MyFriendBadge";
 
 import backgroundImage from "../../../assets/64d4520749a58717c1f21a69_Pondering.svg";
 
@@ -41,18 +38,9 @@ const ConstructionPage = async () => {
         back every now and then! 👷🏽
       </h3>
 
-      <Link
-        href="/dev-blog"
-        className="text-2xl bg-slate-50 p-2 rounded  hover:bg-blue-200 "
-      >
-        I made the framework for starting a tiny dev blog! still not responsive
-        or anything yet though 😔😔
-      </Link>
-
-      <MyFriendBadge />
       <FriendBadgeContainer />
 
-      <article className="border border-black border-1  flex flex-col items-center w-1/2 rounded bg-indigo-100 max-w-[100ch] p-4">
+      <article className="border border-black border-1  flex flex-col items-center rounded bg-indigo-100 max-w-dvw sm:max-w-[100ch] p-4">
         <h1
           aria-label="checklist header"
           className=" font-medium text-4xl pb-4"
