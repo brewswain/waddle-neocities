@@ -23,7 +23,7 @@ const Navbar = () => {
     >
       <button
         type="button"
-        className="absolute top-4 right-4"
+        className="absolute top-4 right-4 md:hidden"
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         <Image
