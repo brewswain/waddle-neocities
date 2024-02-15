@@ -15,7 +15,6 @@ export default function Home() {
     placeholderURL
   );
 
-  // redirect("/construction");
   useEffect(() => {
     const preloadImage = async (src: string) => {
       try {
@@ -35,16 +34,15 @@ export default function Home() {
 
     const imageSrc = "/images/kirby_1080_edit_compressed.png";
 
-    console.warn({
+    console.log({
       preloadLog: preloadImage(imageSrc),
     });
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
-    // bg-home-page
     <main
       className="flex-col items-center flex bg-slate-400 min-h-dvh
-      bg-no-repeat bg-cover gap-4 pb-12 sm:grid sm:grid-rows-5 grid-cols-5"
+      bg-no-repeat bg-cover gap-4 pb-12 sm:grid sm:grid-rows-5 sm:grid-cols-5"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}
