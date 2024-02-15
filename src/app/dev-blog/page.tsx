@@ -13,9 +13,11 @@ const DevBlog = async () => {
       <section className="gap-4 p-4">
         {posts.map((post) => {
           return (
-            <Link href={`dev-blog/${post.slug}.html`} key={post.slug}>
-              <PostCard title={post.title} publishDate={post.publishDate} />
-            </Link>
+            <article className="max-w-[300px] h-[100px]" key={post.slug}>
+              <Link href={`dev-blog/${post.slug}.html`}>
+                <PostCard title={post.title} publishDate={post.publishDate} />
+              </Link>
+            </article>
           );
         })}
       </section>
