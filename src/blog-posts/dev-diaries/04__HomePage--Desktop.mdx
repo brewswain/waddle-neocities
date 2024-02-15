@@ -2,7 +2,15 @@
 title: "HomePage--Desktop"
 publishDate: "February 14th, 2024"
 id: 4
+tags:
+  - "React"
+  - "NextJS"
+  - "Figma"
+  - "Tailwind"
+  - "Oddball"
 ---
+
+# 04\_\_HomePage--Desktop
 
 Hey yall, Happy Valentines!
 
@@ -60,7 +68,7 @@ But yeah basically that's how I handled converting our layout to grid once we pa
 
 So, you may or may not have noticed (better if you didn't notice consciously, since as the adage goes: "Good UX gets highlighted and talked about as it's usually clever, Great UX gets ignored as it usually so much sense to the user that it reverts to being unremarkable"), the homepage no longer does incremental loading of its background image! So let's talk about that for this post instead.
 
-Let's get something out of the way first. [I basically XCopied the entire implementation from here](https://css-tricks.com/the-blur-up-technique-for-loading-background-images/https://css-tricks.com/the-blur-up-technique-for-loading-background-images). The implementation is way better written there as well, and if you don't know about this site yet, then you're welcome. Also, as a bonus sight, [This guy is increeeedible at CSS/Design so def check him out too!](https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/) (Also the latter link is super useful since I see tons of people including myself a while back use rems for padding etc since they fell into the trap of trying to make everything accessible which ended up working in reverse and breaking the site for visually impaired people).
+Let's get something out of the way first. [I basically XCopied the entire implementation from here](https://css-tricks.com/the-blur-up-technique-for-loading-background-images/). The implementation is way better written there as well, and if you don't know about this site yet, then you're welcome. Also, as a bonus sight, [This guy is increeeedible at CSS/Design so def check him out too!](https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/) (Also the latter link is super useful since I see tons of people including myself a while back use rems for padding etc since they fell into the trap of trying to make everything accessible which ended up working in reverse and breaking the site for visually impaired people).
 
 But anyway, back to the main issue:
 I hate seeing incremental load of images, particularly ones as busy as my current background! If it's just a regular pattern which'll load pretty fast, then you're fine. But when you get into something more complex and bright as mine, well...It looks messy. So! let's break down our steps:

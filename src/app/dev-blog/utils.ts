@@ -13,6 +13,7 @@ interface FrontMatter {
   title: string;
   publishDate: string;
   id?: number;
+  tags?: string[];
 }
 
 export interface PostMetaDataProp extends FrontMatter {
@@ -38,6 +39,7 @@ export const getPostBySlug = async (slug: string) => {
       title: frontmatter.title,
       publishDate: frontmatter.publishDate,
       id: frontmatter.id,
+      tags: frontmatter.tags,
     },
     content,
   };
