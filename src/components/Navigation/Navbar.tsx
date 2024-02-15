@@ -4,7 +4,6 @@ import Link from "next/link";
 import NavLink from "./NavLink";
 import Image from "next/image";
 import { useState } from "react";
-import { LayoutProps } from "@/app/consts/interfaces";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
