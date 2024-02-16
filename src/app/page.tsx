@@ -34,9 +34,7 @@ export default function Home() {
 
     const imageSrc = "/images/kirby_1080_edit_compressed.png";
 
-    console.log({
-      preloadLog: preloadImage(imageSrc),
-    });
+    preloadImage(imageSrc);
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
