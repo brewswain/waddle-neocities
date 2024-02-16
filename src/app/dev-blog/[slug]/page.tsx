@@ -1,9 +1,6 @@
-import Link from "next/link";
-
 import ConsoleCowBoy from "@/blog-templates/ConsoleCowBoy";
 
 import { getAllPostsMetaData, getPostBySlug } from "../utils";
-import { useState } from "react";
 import ScrollableNavbar from "@/components/Navigation/ScrollableNavbar";
 
 const getPageContent = async (slug: string) => {
