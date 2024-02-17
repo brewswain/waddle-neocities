@@ -26,7 +26,6 @@ const TagCard = ({ tag, dropdown }: TagCardProps) => {
 
     const filteredTags = selectedTags.filter((chosenTag) => chosenTag !== tag);
 
-    // TODO: edit this for when we change our structure to have an array of strings; we can then use a filter method
     selectedTags.includes(formattedTag)
       ? setSelectedTags(filteredTags)
       : setSelectedTags([...selectedTags, formattedTag]);
@@ -41,7 +40,13 @@ const TagCard = ({ tag, dropdown }: TagCardProps) => {
                         ? " hover:bg-green-400  bg-green-500 text-slate-50"
                         : " hover:bg-slate-600 bg-slate-700 hover:text-slate-100 "
                     }`
-                  : "rounded-2xl text-slate-300  bg-slate-700"
+                  : `rounded-2xl   ${
+                      selectedTags.includes(tag)
+                        ? "bg-green-500 text-slate-50"
+                        : tag === "New!"
+                        ? "bg-teal-500 text-slate-100"
+                        : "bg-slate-700 text-slate-300 "
+                    }`
               }`}
       key={crypto.randomUUID()}
       onClick={(event) => handleClick(event)}
