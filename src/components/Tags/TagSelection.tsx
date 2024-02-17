@@ -15,7 +15,7 @@ const TagSelection = () => {
   const humanReadableInclusionMode = inclusionMode === "&&" ? "AND" : "OR";
 
   return (
-    <section className="flex flex-col gap-4 p-4">
+    <section className="flex flex-col gap-4 p-4 bg-white">
       <div>
         Multiple Tag Mode:
         <button
