@@ -1,0 +1,547 @@
+---
+title: "Tags"
+publishDate: "February 16th, 2024"
+id: 5
+tags:
+  - "React"
+  - "NextJS"
+  - "MDX"
+  - "New!"
+  - "Oddball"
+---
+
+# 05\_\_Tags
+
+ฅ(ﾐ Φ⋏Φ ﾐ)∫ Hi yall!
+
+Eagly-eyed viewers of this blog might realise that I added a brand new feature to the blog, Tags!
+
+<sub>(Eagly-eyed was a typo but by decision of the council, it stays)</sub>
+
+Oh also, I made the navbar in our blog vanish when we're scrolling down and reappear if we scroll up. Not gonna go into it, but just wanted to acknowledge that I implemented that!
+
+So anyway, tags. In terms of design, it's extremely rudimentary, but for now it's functional so it stays. Chances are I _Might_ pretty it up with this same update, but for now the MVP looks like this:
+
+<img
+  src="/dev_diaries/05_tags/01_MVP-Design.png"
+  style={{ maxWidth: "100%", alignSelf: "center" }}
+/>
+
+Hey, it works!
+
+There's also some animations baked in, which is always fun when dealing with React, since it doesn't handle animations while mounting/dismounting from the DOM by default, but more on that in a lil bit. Let's talk about the development process!
+
+## Goals
+
+---
+
+- Tags gotta exist in our MDX files' metadata/frontmatter
+- Tags need to be publicly available
+- Clicking a tag on our Post Cards needs to select that tag for filtering purposes
+- We need to filter out our topic based on said tags
+- Multi-tag support is very necessary
+- We need to offer different styles of multi-tag selection
+- It's gotta be fun to mess around with
+
+Quite a hefty Goals list for such a simple looking feature, right? Well, a large part of the complexity comes from goal #2, we'll get into that in a bit.
+
+## Process
+
+---
+
+As a head's up, this definitely gonna be longer than normal, so bear with me.
+
+### Tags gotta exist in our MDX files' metadata/frontmatter
+
+This one's super simple, anybody who uses obsidian/messes around a _bit_ deeper with markdown than just editing your codebase's README.md knows about your file's metadata. However, if you don't know, then just check this out:
+
+```
+---
+title: "Tags"
+publishDate: "February 16th, 2024"
+id: 5
+tags:
+  - "React"
+  - "NextJS"
+  - "MDX"
+  - "New!"
+  - "Oddball"
+---
+```
+
+If we're talking about Syntax, it reminds me of YAML, right? But yeah, basically you can look at the file's frontmatter as just a bit of the file that's accessible as a separate entity for us. Like datapoints!
+So as we can see, I have our tags set up manually, and it gets outputted as an array, so whenever I access the frontmatter's tags, I get this:
+
+```
+tags: ["React", "NextJS", "MDX", "New!", "Oddball"];
+```
+
+That's important to know, since data-shape should always be something you keep in mind, but let's move on!
+
+### Tags need to be publicly available
+
+Ok, so first let's talk about _data flow_. React subscribes to "Unidirectional Data Flow". This is preeetty important and has implications on codebase architecture, so keep that in mind. Basically, Data should get passed from a parent component to a child component in most cases. It usually shouldn't be done in the inverse, although we do _[hoist/lift state up](https://react.dev/learn/sharing-state-between-components)_ quite a bit, but we can argue that we're just modifying data that we sent from the parent by using a function sent by the parent to begin with!
+
+So in that case, we'd normally go to our dev blog page, create and consume our tags there, and just send it over to our `<PostCard />` components, right?
+
+Yeah, that's how it normally is.
+
+#### **But?**
+
+But We're using[ NextJs' App router](https://nextjs.org/docs/app), remember?
+That means we use Server components by default, which gives me some composition headaches, but we haffi maintain, so let's dive into it.
+
+#### Server Components?
+
+Yeah so just think of Server components as code that can be rendered and cached on the server. This also means that we can access backend resources directly including environment variables as well as our data, which is amazing. Basically, we get dope separation of concerns from our purely frontend code. Some of this rendering and streaming's definitely constrained by us being on neocities due to this being a statically built site platform, but that makes this more **fun**, so I'm genuinely so glad about these kinda constraints!.
+
+But why'd I bring that up? Well, remember State? State's React's way to send data and instructions through the app and have the affected component re-render in real time, giving us UI updates without the page needing to reload. **HOWEVER.** Server components cannot access state and interactivity as a whole (onClick handlers, etc), Which brings me to my main point.
+
+**How tf do we access our Tags both in file and throughout the app at the same time?😭😭**
+
+#### Composition
+
+Welcome to what took the most brainpower to work.
+So as said, server components can't access state. But client components can't be async, which means I can't load up our MDX files in a client component! Therefore I can't access state in by `<DevBlog />`, and I can't turn it into a client component since I need to call some server functions to get our files😔
+
+<img
+  src="/dev_diaries/05_tags/02_spongebob_eugene_dream.png"
+  style={{ maxWidth: "100%", alignSelf: "center" }}
+/>
+
+Enough worrying though, let's just dive in and see how we're gonna solve this! (Keep in mind that this is my first time working with App Router, so my solutions will probably be not the best, but if it works for now then I'm happy).
+
+Let's assume one certain condition to this approach. **My DevBlog Page MUST stay as a server component**.
+
+Doing this is important since now You simplify your problem. Now, instead of me wondering how to make each file interact with each other, I now only have One task:
+**We need to get our state to our Server component safely**.
+
+So now that we assigned responsibility to our client component, let's talk about how we're gonna move our state around. We have a bit too many layers between our Dev Blog page and our Post Card components, so instead of me just passing everything as a prop, let's use [Context](https://react.dev/learn/passing-data-deeply-with-context).
+
+Ok sweet, now I have a pseudo-global state management system added, Let's see what we're sending:
+
+<sub>TagsContext.tsx</sub>
+``` "use client";
+
+interface TagContextInterface {
+  selectedTags: string[];
+  setSelectedTags: Dispatch<SetStateAction<string[]>>;
+  inclusionMode: string;
+  setInclusionMode: Dispatch<SetStateAction<string>>;
+
+}
+
+export const TagContext =
+  createContext <
+  TagContextInterface >
+  {
+    selectedTags: [],
+    setSelectedTags: () => {},
+    inclusionMode: "&&",
+    setInclusionMode: () => {},
+  };
+
+const TagProvider = ({ children }: { children: React.ReactNode }) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [inclusionMode, setInclusionMode] = useState<string>("&&");
+
+return (
+    <TagContext.Provider
+      value={{ selectedTags, setSelectedTags, inclusionMode, setInclusionMode }}
+    >
+      {children}
+    </TagContext.Provider>
+  );
+};
+
+export default TagProvider;
+```
+
+So the above is how we provide our state/data to any children that exist below it. Please note that this is a client Component. This brings up something interesting, and a major part of our data distribution strategy. We can pass Server Components as a prop to a client component! This means that `{children}` works as a method of doing this, which is pretty great!
+
+Oh also, in this case, we're sending 2 different sets of state to our children:
+
+```
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [inclusionMode, setInclusionMode] = useState<string>("&&");
+```
+
+Since we're sending state, this has to be a client component, but where we're (wares) planning to place our provider is a Server component. This is why I'm doing all the state stuff here, and exporting it as `<TagProvider />`. This way we get our client interactivity, but it's decoupled from other stuff and can exist on a server component without everything panicking and crashing.
+
+Now let's use our `<TagProvider />`!
+
+<sub>app/layout.tsx</sub>
+``` import type {Metadata} from "next";
+
+import { Inter } from "next/font/google";
+
+import TagProvider from "@/context/TagsContext";
+
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Waddle's Emporium",
+  description: "Blee's blog on neocities",
+  icons: {
+    icon: "/icon.png",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <TagProvider>{children}</TagProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+Ok so the above is our [Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts) component. In particular, this is at the root of my application, hence the `html` and `body` tags. I'm basically giving Context the run of our app, as it were! Now remember--**We can pass Server Components as a prop to a client component!**.
+
+I wasted a bit of time getting this process set up btw, it def took a little while to figure out that once it's sent as a prop it's fine, my app was crashing constantly for this bit. But now we're nearly there, right? All we need is to actually get our state sent to our post cards!
+
+<sub>dev-blog/page.tsx</sub>
+``` import {(PostMetaDataProp, getAllPostsMetaData)} from "@/app/dev-blog/utils";
+
+import Navbar from "@/components/Navigation/Navbar";
+
+import PostsContainer from "@/components/DevBlog/PostsContainer";
+import TagSelection from "@/components/Tags/TagSelection";
+
+const DevBlog = async () => {
+  const posts: PostMetaDataProp[] = await getAllPostsMetaData();
+
+return (
+    <main className="bg-slate-100 min-h-dvh">
+      <Navbar />
+      <TagSelection />
+      <PostsContainer posts={posts} />
+    </main>
+  );
+};
+
+export default DevBlog;
+```
+
+This page the mf that been giving us all our problems, cause this is the one that HAS to remain a server component since this is where we get our actual file metadata from our backend. That being said, after taking way too long to think about it, I was like:
+"Wait, I can just take our PostCard component and make a container for it that can be a client component!" This is how we made our `<PostsContainer />`. The interesting thing here is that we're passing the posts data into it via props!. So now our `<PostsContainer />` gets data from the server, then when it renders, has all of its interactivity since I can make that component a client component!
+
+<img
+  src="/dev_diaries/05_tags/03_spinda.png"
+  style={{ maxWidth: "300px", alignSelf: "center" }}
+/>
+
+<sup>
+  Me after constantly being forced to remember data composition patterns needed
+  while also working out a data model in my mind the entire time
+</sup>
+
+So without further ado, check out my PostsContainer component:
+
+<sub>PostsContainer.tsx</sub>
+``` "use client";
+
+import React, { useEffect, useState, useContext } from "react";
+import Link from "next/link";
+
+import { motion, AnimatePresence } from "framer-motion";
+
+import PostCard from "./PostCard";
+
+import { TagContext } from "@/context/TagsContext";
+import { PostMetaDataProp } from "@/app/dev-blog/utils";
+import { isDevelopmentEnvironment } from "@/app/consts/utils";
+
+interface PostsContainerProps {
+  posts: PostMetaDataProp[];
+}
+
+const PostsContainer = ({ posts }: PostsContainerProps) => {
+  const [filteredPosts, setFilteredPosts] = useState(posts);
+  const { selectedTags, inclusionMode } = useContext(TagContext);
+
+useEffect(() => {
+    if (selectedTags) {
+      const taggedPosts = posts.filter((post) => {
+        const formattedTags =
+          inclusionMode === "&&"
+            ? selectedTags.every((selectedTag) =>
+                post.tags?.includes(selectedTag)
+              )
+            : post.tags?.map((element) => {
+                return selectedTags.includes(element);
+              });
+        return inclusionMode === "&&"
+          ? formattedTags
+          : (formattedTags as boolean[])?.some(Boolean); // Return true if at least one tag matches
+      });
+      if (inclusionMode === "||" && selectedTags.length === 0) {
+        setFilteredPosts(posts);
+      } else {
+        setFilteredPosts(taggedPosts);
+      }
+    } else {
+      setFilteredPosts(posts);
+    }
+  }, [selectedTags, posts, inclusionMode]);
+
+return (
+    <motion.section
+      className="flex flex-col gap-4 p-4 flex-wrap sm:flex-row"
+      layout
+    >
+      <AnimatePresence>
+        {filteredPosts.map((post) => {
+          return (
+            <motion.article
+              key={post.slug}
+              layout
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              className="max-w-[300px] h-[100px] mb-6"
+            >
+              <Link
+                href={
+                  isDevelopmentEnvironment
+                    ? `dev-blog/${post.slug}`
+                    : `dev-blog/${post.slug}.html`
+                }
+              >
+                <PostCard
+                  title={post.title}
+                  publishDate={post.publishDate}
+                  tags={post.tags || []}
+                />
+              </Link>
+            </motion.article>
+          );
+        })}
+      </AnimatePresence>
+    </motion.section>
+  );
+};
+
+export default PostsContainer;
+```
+
+There's a lot here, I'm aware, but just notice that we have our `posts` data being sent to us, while we also have our state! FINALLY!!!!! From here it's standard data wrangling stuff, so onto our (shorter) goals
+
+### Clicking a tag on our Post Cards needs to select that tag for filtering purposes
+
+<sub>TagCard.tsx</sub>
+``` "use client";
+
+import { TagContext } from "@/context/TagsContext";
+import React, { useContext } from "react";
+
+interface TagCardProps {
+  tag: string;
+  dropdown?: boolean;
+}
+
+const TagCard = ({ tag, dropdown }: TagCardProps) => {
+  const { selectedTags, setSelectedTags } = useContext(TagContext);
+
+const handleClick = (
+    event:
+      | React.MouseEvent<HTMLSpanElement, MouseEvent>
+      | React.KeyboardEvent<HTMLSpanElement>
+  ) => {
+    event.preventDefault();
+
+const input = event.target as HTMLElement;
+    const formattedTag = input.textContent
+      ? dropdown
+        ? input.textContent
+        : input.textContent.substring(1)
+      : "No text detected";
+
+const filteredTags = selectedTags.filter((chosenTag) => chosenTag !== tag);
+
+selectedTags.includes(formattedTag)
+      ? setSelectedTags(filteredTags)
+      : setSelectedTags([...selectedTags, formattedTag]);
+  };
+
+return (
+    <span
+      className={`text-sm  px-2 cursor-pointer
+              z-[2] transition ${
+                dropdown
+                  ? `rounded p-1 text-slate-100 ${
+                      selectedTags.includes(tag)
+                        ? " hover:bg-green-400  bg-green-500 text-slate-50"
+                        : " hover:bg-slate-600 bg-slate-700 hover:text-slate-100 "
+                    }`                  :`rounded-2xl   ${
+                      selectedTags.includes(tag)
+                        ? "bg-green-500 text-slate-50"
+                        : "bg-slate-700 text-slate-300 "
+                    }`
+              }`}
+      key={crypto.randomUUID()}
+      onClick={(event) => handleClick(event)}
+      onKeyDown={(event) => handleClick(event)}
+    >
+      {dropdown ? null : "#"}
+      {tag}
+    </span>
+  );
+};
+
+export default TagCard;
+```
+
+Fairly verbose, but the basis is that Our tag Cards are clickable, and when we do so, our `handleClick()` checks to see if the tag was already preclicked, and toggles the selection based on that. If selected, deselect, and if not selected, add it to an array of selected tags. Remember what i said waaaaay back at the beginning?
+
+```
+tags: ["React", "NextJS", "MDX", "New!", "Oddball"];
+```
+
+> That's important to know, since data-shape should always be something you keep in mind, but let's move on!
+
+So let's get to it! I elected to mimic our selected tags in this same format, so if I clicked MDX and Oddball,
+our tags from both an overarching tagList and the tags that currently exist in our post would look like this:
+
+```
+postTags: ["React", "NextJS", "MDX", "New!", "Oddball"];
+selectedTags: ["MDX", "Oddball"];
+```
+
+Nice! We have our tags clickable now, so let's work on filtering!
+
+### We need to filter out our topic based on said tags
+
+<sub className="text-violet-500">PostsContainer.tsx</sub>
+```
+
+const [filteredPosts, setFilteredPosts] = useState(posts);   const {
+(selectedTags, inclusionMode)
+} = useContext(TagContext);
+
+useEffect(() => {
+    if (selectedTags) {
+      const taggedPosts = posts.filter((post) => {
+        const formattedTags =
+          inclusionMode === "&&"
+            ? selectedTags.every((selectedTag) =>
+                post.tags?.includes(selectedTag)
+              )
+            : post.tags?.map((element) => {
+                return selectedTags.includes(element);
+              });
+
+return inclusionMode === "&&"
+          ? formattedTags
+          : (formattedTags as boolean[])?.some(Boolean); // Return true if at least one tag matches
+      });
+      if (inclusionMode === "||" && selectedTags.length === 0) {
+        setFilteredPosts(posts);
+      } else {
+        setFilteredPosts(taggedPosts);
+      }
+    } else {
+      setFilteredPosts(posts);
+    }
+  }, [selectedTags, posts, inclusionMode]);
+
+```
+
+Back to our `<PostsContainer />`, This is a pretty interesting filter, because I needed to filter based on a nested array. For reference, our posts that we pass in looks something like this:
+
+```
+
+const posts = [
+{
+  title: "HomePage--Desktop",
+  publishDate: "February 14th, 2024",
+  id: 4,
+  tags?: ["React", "NextJS", "Figma", "Tailwind", "Oddball"],
+},
+{
+  title: "Tags",
+  publishDate: "February 16th, 2024",
+  id: 5,
+  tags?: ["React", "NextJS", "MDX", "New!", "Oddball"],
+},
+]
+
+```
+
+This means that I need to search inside of multiple arrays here! First I need to search inside the `posts` array, then in each individual `post`, I need to search inside of their `tags` array!
+
+Good Ol' data wrangling, am I right?  So basically, I'm looping in 2 levels (I'll leave it to overview level since this is a bloody huge blogpost and I don't wanna kill yall),   then comparing my selectedTags array to each post's `tags` array, and filtering out my posts depending on that.
+### Multi-tag support is very necessary
+
+This was detailed above, but just for quick clarification ,this was handled by making our selectedTags state be an array of tags! This wasn't how it was done at first (At first i just allowed us to click one tag at a time, but thought multiple tags would be way more fun to implement).
+### We need to offer different styles of multi-tag selection
+
+This was cool, but I decided to offer differentiation of how we can use our multiple tags! (Shoutouts to mangadex, I decided on this approach cause I love their tagging system)
+
+So in our state, I have this value added:
+
+```
+
+const [inclusionMode, setInclusionMode] = useState<string>("&&");
+
+```
+
+`&&` refers to the AND conditional operator, and `||` refers to OR.  Once we had that concept figured out, we gotta add it into our component that's like a dashboard for our tags!
+
+<sub>TagSelection.tsx</sub>
+```
+
+const handleInclusionModeChange = () => {
+    inclusionMode === "&&" ? setInclusionMode("||") : setInclusionMode("&&");
+  };
+
+const humanReadableInclusionMode = inclusionMode === "&&" ? "AND" : "OR";
+
+```
+
+So once we click our button it swaps between && - ||.
+Also I just made sure that the button displays "AND"/ "OR" instead of those operators just for you guys 😳
+
+<img
+  src="/dev_diaries/05_tags/04_multitag.png"
+  style={{ maxWidth: "100%", alignSelf: "center" }}
+/>
+
+Depending on what the value of inclusion mode is, we either filter out posts that don't have every single selected tag inside them (AND), or we just look for if they happen to have any one of them chosen (OR).
+
+Pretty cool! That functionality's found back in our `PostsContainer`function:
+
+<sub>PostsContainer.tsx</sub>
+```
+
+return inclusionMode === "&&"
+          ? formattedTags
+          : (formattedTags as boolean[])?.some(Boolean); // Return true if at least one // tag matches
+
+```
+
+Nice. Now the last thing, how does it feel to use the tags?
+
+### It's gotta be fun to mess around with
+
+This final point was mainly for me, but [Cody](https://killdragons.neocities.org/) validated me super quickly:
+
+<img
+  src="/dev_diaries/05_tags/05_VINDICATION.png"
+  style={{ maxWidth: "100%", alignSelf: "center" }}
+/>
+
+The way I instantly felt seen LOL
+
+I basically handled this by doing some animations etc using [framer-motion](https://www.framer.com/motion/animation/) which helps solve some dismount animation problems etc we'd have with react.
+But yeah I still absently click around on the tags, and I even added a teensy bit of update with this post (I made the postCard's tags also change colour if they're selected), and (as you can prob tell by this post length), I had a super good/frustrating time making this implementation! 
+
+Thanks for reading this far yall, this definitely ended up beinga way more complex implementation than I envisioned, but it was also super helpful for me since I now have a design pattern in mind next time i need to mix and match state and server components. Cya next time!
