@@ -1,19 +1,19 @@
 "use client";
 
-import { PostMetaDataProp, getAllPostsMetaData } from "@/app/dev-blog/utils";
+import React, { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 
 import { motion, AnimatePresence } from "framer-motion";
 
-import React, { useEffect, useState } from "react";
 import PostCard from "./PostCard";
+
+import { TagContext } from "@/context/TagsContext";
+import { PostMetaDataProp } from "@/app/dev-blog/utils";
+import { isDevelopmentEnvironment } from "@/app/consts/utils";
 
 interface PostsContainerProps {
   posts: PostMetaDataProp[];
 }
-
-import { useContext } from "react";
-import { TagContext } from "@/context/TagsContext";
 
 const PostsContainer = ({ posts }: PostsContainerProps) => {
   const [filteredPosts, setFilteredPosts] = useState(posts);
@@ -60,7 +60,13 @@ const PostsContainer = ({ posts }: PostsContainerProps) => {
               exit={{ opacity: 0 }}
               className="max-w-[300px] h-[100px] mb-6"
             >
-              <Link href={`dev-blog/${post.slug}.html`}>
+              <Link
+                href={
+                  isDevelopmentEnvironment
+                    ? `dev-blog/${post.slug}`
+                    : `dev-blog/${post.slug}.html`
+                }
+              >
                 <PostCard
                   title={post.title}
                   publishDate={post.publishDate}
