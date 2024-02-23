@@ -1,7 +1,5 @@
 "use client";
 
-import { redirect } from "next/navigation";
-
 import ButtonContainer from "@/components/HomePage/ButtonContainer";
 import ChatBox from "@/components/HomePage/ChatBox";
 import Preamble from "@/components/HomePage/Preamble";
@@ -39,8 +37,7 @@ export default function Home() {
 
   return (
     <main
-      className="flex min-h-dvh flex-col 
-      items-center gap-4 bg-slate-400 bg-cover bg-no-repeat pb-12 sm:grid sm:grid-cols-5 sm:grid-rows-5"
+      className="flex min-h-dvh flex-col items-center gap-4 bg-slate-400 bg-cover bg-no-repeat pb-12 sm:grid sm:grid-cols-5 sm:grid-rows-5"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}
