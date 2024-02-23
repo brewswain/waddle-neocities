@@ -18,11 +18,11 @@ const Navbar = () => {
   return (
     // TODO: Add active Links
     <nav
-      className={`bg-slate-100 w-dvw flex flex-col sticky top-0 px-4 py-2 border border-pink-200 sm:flex sm:w-full sm:self-end ${positionVariants.rowStart}  ${positionVariants.rowEnd} ${positionVariants.columnStart} ${positionVariants.columnEnd}`}
+      className={`sticky top-0 flex w-dvw flex-col border border-pink-200 bg-slate-100 px-4 py-2 sm:flex sm:w-full sm:self-end ${positionVariants.rowStart}  ${positionVariants.rowEnd} ${positionVariants.columnStart} ${positionVariants.columnEnd}`}
     >
       <button
         type="button"
-        className="absolute top-4 right-4 md:hidden"
+        className="absolute right-4 top-4 md:hidden"
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
         <Image
@@ -37,7 +37,7 @@ const Navbar = () => {
         />
       </button>
       {isCollapsed ? (
-        <header className="min-h-[60px] items-center flex justify-center ">
+        <header className="flex min-h-[60px] items-center justify-center ">
           <h1 className="text-2xl font-semibold ">Navigation</h1>
         </header>
       ) : (
