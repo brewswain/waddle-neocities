@@ -12,7 +12,7 @@ import { placeholderURL } from "./consts/largeText";
 
 export default function Home() {
   const [backgroundImage, setBackgroundImage] = useState<string | null>(
-    placeholderURL
+    placeholderURL,
   );
 
   useEffect(() => {
@@ -39,8 +39,8 @@ export default function Home() {
 
   return (
     <main
-      className="flex-col items-center flex bg-slate-400 min-h-dvh
-      bg-no-repeat bg-cover gap-4 pb-12 sm:grid sm:grid-rows-5 sm:grid-cols-5"
+      className="flex min-h-dvh flex-col 
+      items-center gap-4 bg-slate-400 bg-cover bg-no-repeat pb-12 sm:grid sm:grid-cols-5 sm:grid-rows-5"
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}
