@@ -42,13 +42,15 @@ const Navbar = () => {
       ) : (
         <section className="sm:flex sm:h-full sm:justify-center">
           <ul
-            className={`flex h-full justify-around pl-4 lg:w-full lg:flex-row  lg:gap-2 ${isNotHomePage ? "w-dvw flex-row items-center justify-center lg:justify-center lg:gap-[50px]" : "lg: flex-col"}`}
+            className={`flex h-full justify-around pl-4 lg:w-full lg:flex-row  lg:gap-2 ${isNotHomePage ? "w-dvw flex-row items-center justify-center lg:justify-center lg:gap-[50px]" : "lg: flex-col md:items-center"}`}
           >
             <NavLink href="/" slug="Home" />
             <NavLink href="/dev-blog" slug="Dev Blog" />
 
             {/* Replace with NavLink once we actually have our About Page scaffolded */}
-            <div className={`flex gap-4 ${isNotHomePage ? "" : "flex-col"}`}>
+            <div
+              className={`flex gap-4 ${isNotHomePage ? "" : "flex-col md:flex-row"}`}
+            >
               <li className="cursor-none">
                 <span className=" text-gray-500 line-through">About</span>
               </li>
