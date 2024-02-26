@@ -37,25 +37,21 @@ export default function Home() {
 
   return (
     <main
-      className="min-h-dvh justify-center gap-4 bg-slate-400 bg-cover bg-no-repeat backdrop:min-h-dvh "
+      className="flex min-h-dvh justify-center gap-4 bg-slate-400 bg-cover bg-no-repeat backdrop:min-h-dvh "
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundAttachment: "fixed",
       }}
     >
-      <section className="flex flex-col bg-no-repeat sm:flex-row sm:pl-8 md:justify-between">
-        <div className="sticky top-0 mt-[20px] overflow-auto sm:flex sm:h-[530px] sm:flex-col">
+      <section className="flex flex-col bg-no-repeat sm:flex-row sm:pl-8 md:justify-between md:pt-10 lg:flex-col lg:justify-start lg:gap-10">
+        <div className="lg: sticky top-0 overflow-auto sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[800px]">
           <Navbar />
         </div>
-        <div className="gap-4 sm:flex sm:flex-col sm:self-center">
-          <Preamble />
-          <Preamble />
-          <Preamble />
-          <Preamble />
+        <div className="lg: gap-4 sm:flex sm:flex-col sm:self-center lg:flex-row-reverse">
           <Preamble />
           <ButtonContainer />
         </div>
-        {/* <ChatBox /> */}
+        <ChatBox />
         {/* <Footer /> */}
       </section>
     </main>

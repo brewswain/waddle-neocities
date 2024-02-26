@@ -9,7 +9,7 @@ const DevBlog = async () => {
   const posts: PostMetaDataProp[] = await getAllPostsMetaData();
 
   return (
-    <main className="bg-slate-100 min-h-dvh">
+    <main className="min-h-dvh bg-slate-100">
       <Navbar />
       <TagSelection />
       <PostsContainer posts={posts} />

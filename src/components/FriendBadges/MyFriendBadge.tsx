@@ -16,7 +16,7 @@ const MyFriendBadge = () => {
 </a>`;
 
   return (
-    <article className="friend-badge__container m-4 flex flex-col gap-1 justify-center items-center">
+    <article className="friend-badge__container m-4 flex flex-col items-center justify-center gap-1">
       <FriendBadge
         key={crypto.randomUUID()}
         blogUrl={temporaryBadgeData.blogUrl}
@@ -24,7 +24,7 @@ const MyFriendBadge = () => {
         imagueUrl={temporaryBadgeData.imageUrl}
       />
 
-      <figure className="codeblock__container max-w-[15ch] mt-1 text-sm sm:max-w-[30ch] md:text-base ">
+      <figure className="codeblock__container mt-1 max-w-[25ch] text-sm sm:max-w-[30ch] md:text-base ">
         <CopyBlock
           text={codeSnippet}
           language="html"
