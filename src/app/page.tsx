@@ -43,11 +43,11 @@ export default function Home() {
         backgroundAttachment: "fixed",
       }}
     >
-      <section className="flex flex-col  bg-no-repeat  sm:flex-row sm:pl-8 md:grid md:grid-cols-8 md:grid-rows-6 md:items-start">
-        <div className=" mt-[20px] overflow-auto sm:flex sm:h-[530px] sm:flex-col sm:self-center">
+      <section className="flex flex-col bg-no-repeat sm:flex-row sm:pl-8 md:justify-between">
+        <div className="sticky top-0 mt-[20px] overflow-auto sm:flex sm:h-[530px] sm:flex-col">
           <Navbar />
         </div>
-        <div className="gap-4 sm:flex sm:flex-col sm:self-center md:grid">
+        <div className="gap-4 sm:flex sm:flex-col sm:self-center">
           <Preamble />
           <Preamble />
           <Preamble />

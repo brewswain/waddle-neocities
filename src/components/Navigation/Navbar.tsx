@@ -8,17 +8,10 @@ import { useState } from "react";
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
-  const positionVariants = {
-    rowStart: "sm:row-start-2",
-    rowEnd: "sm:row-end-2",
-    columnStart: "sm:col-start-8 md:col-start-6",
-    columnEnd: "sm:col-end-8 md:col-end-6",
-  };
-
   return (
     // TODO: Add active Links
     <nav
-      className={`sticky top-0 flex flex-col border border-pink-200 bg-slate-100 px-4 py-2 sm:mr-4 sm:flex sm:h-full sm:max-w-[200px] sm:self-center sm:justify-self-end md:static md:max-w-[200px] md:self-end md:bg-green-500 ${positionVariants.rowStart}  ${positionVariants.rowEnd} ${positionVariants.columnStart} ${positionVariants.columnEnd}`}
+      className={`flex flex-col border border-pink-200 bg-slate-100 px-4 py-2 sm:mr-4 sm:flex sm:h-full sm:max-w-[200px] sm:self-center sm:justify-self-end md:static md:max-w-[200px] md:self-end md:bg-green-500`}
     >
       <button
         type="button"
