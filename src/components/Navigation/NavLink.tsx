@@ -12,15 +12,15 @@ const NavLink = ({ href, slug }: NavLinkProps) => {
   const pathname = usePathname();
 
   return (
-    <li className="w-1/2">
+    <li className="w-1/2 sm:w-full">
       <Link href={href}>
         {/* TODO: instead of font color, render a lil maxim tomato or something next to our active link */}
         <span
           className={`${
-            pathname === href ? "text-pink-500 text-lg" : "text-indigo-500"
+            pathname === href ? "text-lg text-pink-500" : "text-indigo-500"
           } font-semibold`}
         >
-          {slug}
+          - {slug}
         </span>
       </Link>
     </li>

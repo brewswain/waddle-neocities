@@ -2,15 +2,15 @@ import MyFriendBadge from "../FriendBadges/MyFriendBadge";
 
 const ButtonContainer = () => {
   const positionVariants = {
-    rowStart: "sm:row-start-2",
-    rowEnd: "sm:row-end-3 md:row-end-4",
-    columnStart: "sm:col-start-1 md:col-start-",
-    columnEnd: "sm:col-end-3",
+    rowStart: "sm:row-start-3",
+    rowEnd: "sm:row-end-4 md:row-end-4",
+    columnStart: "sm:col-start-2 md:col-start-2",
+    columnEnd: "sm:col-end-7",
   };
 
   return (
     <aside
-      className={`flex flex-col bg-slate-100 w-dvw p-4 items-center text-lg font-semibold sm:max-w-[285px] md:max-w-[340px] sm:h-full justify-self-end  ${positionVariants.rowStart}  ${positionVariants.rowEnd} ${positionVariants.columnStart} ${positionVariants.columnEnd}`}
+      className={`flex flex-col items-center bg-slate-100 p-4 text-lg font-semibold sm:h-full sm:max-w-[330px] md:max-w-[340px]  ${positionVariants.rowStart}  ${positionVariants.rowEnd} ${positionVariants.columnStart} ${positionVariants.columnEnd}`}
     >
       {"My one(1) button >:)"}
       <MyFriendBadge />

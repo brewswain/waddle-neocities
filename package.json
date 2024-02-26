@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "yarn build && neocities push out && echo \"Don't forget to upload your _next/static/chunks/app/dev-blog/ folder manually if anything breaks!\" "
+    "deploy": "npx pretty quick && yarn build && neocities push out && echo \"Don't forget to upload your _next/static/chunks/app/dev-blog/ folder manually if anything breaks!\" "
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.0",
