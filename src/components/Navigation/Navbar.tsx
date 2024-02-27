@@ -49,7 +49,7 @@ const Navbar = () => {
 
             {/* Replace with NavLink once we actually have our About Page scaffolded */}
             <div
-              className={`flex gap-4 ${isNotHomePage ? "" : "flex-col md:flex-row"}`}
+              className={`flex gap-4 ${isNotHomePage ? "" : "flex-col lg:flex-row"}`}
             >
               <li className="cursor-none">
                 <span className=" text-gray-500 line-through">About</span>
