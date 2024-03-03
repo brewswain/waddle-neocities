@@ -1,0 +1,77 @@
+.homepage-card {
+  border-radius: 12px;
+  background-color: hsl(212, 18%, 24%);
+  overflow: auto;
+
+  &__preamble {
+    text-align: center;
+
+    &__gradient {
+      background-image: linear-gradient(
+        25deg,
+        hsl(336deg 66% 65%) 0%,
+        hsl(337deg 68% 70%) 5%,
+        hsl(338deg 69% 74%) 12%,
+        hsl(339deg 71% 78%) 22%,
+        hsl(339deg 73% 82%) 33%,
+        hsl(340deg 75% 86%) 45%,
+        hsl(341deg 78% 89%) 59%,
+        hsl(341deg 80% 93%) 73%,
+        hsl(342deg 82% 97%) 87%,
+        hsl(0deg 0% 100%) 100%
+      );
+    }
+  }
+
+  &__button-container {
+    text-align: center;
+
+    &__gradient {
+      background-image: linear-gradient(
+        335deg,
+        hsl(197deg 78% 74%) 0%,
+        hsl(197deg 77% 77%) 5%,
+        hsl(197deg 77% 80%) 12%,
+        hsl(198deg 77% 83%) 22%,
+        hsl(198deg 77% 86%) 33%,
+        hsl(198deg 77% 89%) 45%,
+        hsl(198deg 76% 92%) 59%,
+        hsl(199deg 76% 95%) 73%,
+        hsl(199deg 76% 97%) 87%,
+        hsl(0deg 0% 100%) 100%
+      );
+    }
+  }
+
+  &__header {
+    font-size: 2.3rem;
+    line-height: 130%;
+    letter-spacing: -1%;
+    font-weight: 700;
+    color: hsl(212, 18%, 20%);
+  }
+
+  &__content {
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 150%;
+    color: hsl(212, 30%, 80%);
+  }
+  &__link {
+    color: hsl(333, 96%, 51%);
+    font-weight: 500;
+    font-size: 1.1rem;
+    font-style: italic;
+    text-decoration: underline;
+    padding: 4px;
+    border-radius: 4px;
+    vertical-align: middle;
+    padding-bottom: 10px;
+
+    &:hover {
+      background-color: hsl(333, 96%, 51%);
+      color: hsl(0, 0%, 94%);
+      transition: all 0.2s;
+    }
+  }
+}
