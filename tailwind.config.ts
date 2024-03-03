@@ -14,6 +14,10 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "home-page": "url('/images/kirby_1080_edit_compressed.png')",
       },
+      fontFamily: {
+        merriweather: ["var(--font-merriweather)"],
+        inter: ["var(--font-inter)"],
+      },
       typography: {
         DEFAULT: {
           css: {
