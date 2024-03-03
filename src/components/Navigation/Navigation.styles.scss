@@ -14,14 +14,9 @@
 
     &--underlined {
       border-bottom: 2px solid hsl(219, 92%, 53%);
-
-      //   &:hover {
-      //     border-bottom: 0;
-      //   }
     }
 
     &--active {
-      // replace with svg when we have time if needed
       color: hsl(219, 92%, 53%);
       padding-bottom: 1px;
 
