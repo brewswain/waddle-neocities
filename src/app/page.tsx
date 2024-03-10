@@ -44,7 +44,7 @@ export default function Home() {
       }}
     >
       <section className="flex flex-col bg-no-repeat sm:flex-row sm:gap-4 sm:pl-8 md:justify-between md:pt-10 lg:flex-col lg:justify-start lg:gap-10">
-        <div className="lg: sticky top-0 overflow-auto sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[800px]">
+        <div className="lg: sticky top-0 overflow-auto sm:ml-4 sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
           <Navbar />
         </div>
         <div className="lg: gap-4 sm:flex sm:flex-col sm:self-center lg:flex-row-reverse">

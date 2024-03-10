@@ -8,7 +8,7 @@ interface PostCardProps {
 
 const PostCard = ({ title, publishDate, tags }: PostCardProps) => {
   return (
-    <article className="relative rounded m-3 shadow-md w-[300px] flex-wrap h-[100px] sm:h-[130px] items-center flex flex-col justify-center bg-white transition hover:bg-cyan-100">
+    <article className="relative m-3 flex min-h-[100px] w-[300px] flex-col flex-wrap items-center justify-center rounded bg-white shadow-md transition hover:bg-cyan-100 sm:h-[130px]">
       <h1 className="text-xl font-medium">{title}</h1>
       <p className="text-sm">{publishDate}</p>
 

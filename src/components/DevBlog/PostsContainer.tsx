@@ -25,7 +25,7 @@ const PostsContainer = ({ posts }: PostsContainerProps) => {
         const formattedTags =
           inclusionMode === "&&"
             ? selectedTags.every((selectedTag) =>
-                post.tags?.includes(selectedTag)
+                post.tags?.includes(selectedTag),
               )
             : post.tags?.map((element) => {
                 return selectedTags.includes(element);
@@ -46,7 +46,7 @@ const PostsContainer = ({ posts }: PostsContainerProps) => {
 
   return (
     <motion.section
-      className="flex flex-col gap-4 p-4 flex-wrap sm:flex-row"
+      className="flex flex-col flex-wrap items-center gap-4 p-4 sm:flex-row sm:items-start"
       layout
     >
       <AnimatePresence>
@@ -58,7 +58,7 @@ const PostsContainer = ({ posts }: PostsContainerProps) => {
               animate={{ opacity: 1 }}
               initial={{ opacity: 0 }}
               exit={{ opacity: 0 }}
-              className="max-w-[300px] h-[100px] mb-6"
+              className="mb-6 min-h-[100px] max-w-[300px]"
             >
               <Link
                 href={
