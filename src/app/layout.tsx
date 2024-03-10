@@ -4,7 +4,6 @@ import { Inter, Merriweather } from "next/font/google";
 import TagProvider from "@/context/TagsContext";
 
 import "./globals.scss";
-import Navbar from "@/components/Navigation/Navbar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const merriweather = Merriweather({
