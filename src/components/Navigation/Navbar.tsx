@@ -10,15 +10,20 @@ import NavLink from "./NavLink";
 
 import "./Navigation.styles.scss";
 
-const Navbar = () => {
+interface NavbarProps {
+  includeVerticalView?: boolean;
+}
+
+const Navbar = ({ includeVerticalView }: NavbarProps) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const pathname = usePathname();
-  const isNotHomePage = pathname !== "/";
 
   return (
     // TODO: Add active Links
+
     <nav
-      className={`flex flex-col border border-pink-200 bg-slate-100 px-4 py-2 pl-10  sm:px-10 lg:w-full lg:max-w-full ${isNotHomePage ? "sm:w-[100vw] sm:max-w-[100vw] lg:justify-center lg:gap-[50px]" : "sm:flex sm:h-full sm:max-w-[200px] sm:self-center sm:justify-self-end md:static md:mr-4 md:max-w-[200px] md:self-end "} navbar__container`}
+
+      className={`flex flex-col border border-pink-200 bg-slate-100 px-4 py-2 pl-10  sm:px-10 lg:w-full lg:max-w-full ${includeVerticalView ?  "sm:flex sm:h-full sm:max-w-[200px] sm:self-center sm:justify-self-end md:static md:mr-4 md:max-w-[200px] md:self-end" : "sm:w-[100vw] sm:max-w-[100vw] lg:justify-center lg:gap-[50px]"} navbar__container`}
     >
       <button
         type="button"
@@ -43,12 +48,12 @@ const Navbar = () => {
       ) : (
         <section className="sm:flex sm:h-full sm:justify-center">
           <ul
-            className={`flex h-full justify-around gap-4 pl-4 text-center sm:pl-0 lg:w-full lg:flex-row  lg:gap-2 ${isNotHomePage ? "w-dvw flex-row items-center justify-center lg:justify-center lg:gap-[50px]" : "lg: flex-col md:items-center"}`}
+            className={`flex h-full justify-around gap-4 pl-4 text-center sm:pl-0 lg:w-full lg:flex-row  lg:gap-2 ${includeVerticalView ? "lg: flex-col md:items-center" : "w-dvw flex-row items-center justify-center lg:justify-center lg:gap-[50px]"}`}
           >
             <NavLink href="/" slug="Home" />
             <NavLink href="/dev-blog" slug="Dev Blog" />
-            <NavLink href="#" slug="About" />
-            <NavLink href="#" slug="Webring" />
+            <NavLink href="/about" slug="About" />
+            <NavLink href="/webring" slug="Webring" />
             <NavLink href="#" slug="Music" />
             <NavLink href="#" slug="Pokemon" />
             <NavLink href="#" slug="OC Corner" />
