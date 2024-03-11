@@ -14,7 +14,7 @@ const BlogPostPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <main>
       <ScrollableNavbar />
-      <section className="blog__container bg-blue-400 pt-12 sm:flex justify-center">
+      <section className="blog__container justify-center bg-blue-400 pt-12 sm:flex">
         <div className="content__wrapper prose sm:flex sm:justify-center">
           <ConsoleCowBoy>{content}</ConsoleCowBoy>
         </div>

@@ -12,9 +12,9 @@ const ChecklistItem = ({
   checked: boolean;
 }) => {
   return (
-    <li className="checklist__item flex items-center gap-5 cursor-pointer hover:bg-indigo-200 px-4 py-2">
+    <li className="checklist__item flex cursor-pointer items-center gap-5 px-4 py-2 hover:bg-indigo-200">
       <span
-        className={`${checked ? "line-through text-slate-600" : null} text-lg`}
+        className={`${checked ? "text-slate-600 line-through" : null} text-lg`}
       >
         {children}
       </span>

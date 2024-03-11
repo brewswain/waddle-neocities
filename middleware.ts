@@ -54,7 +54,7 @@ export async function middleware(request: NextRequest) {
             });
           },
         },
-      }
+      },
     );
 
     await supabase.auth.getUser();

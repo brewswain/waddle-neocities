@@ -6,7 +6,7 @@ const contentDirectory = path.join(
   process.cwd(),
   "src",
   "blog-posts",
-  "dev-diaries"
+  "dev-diaries",
 );
 
 interface FrontMatter {

@@ -67,7 +67,7 @@ export default function Home() {
   redirect("/construction");
 
   return (
-    <main className=" flex-col items-center flex bg-slate-400 min-h-[100vh]">
+    <main className=" flex min-h-[100vh] flex-col items-center bg-slate-400">
          
     </main>
   );
@@ -106,7 +106,7 @@ const ConstructionPage = async () => {
 
   return (
     <main
-      className="construction__checklist flex flex-col min-h-dvh items-center bg-pink-300"
+      className="construction__checklist flex min-h-dvh flex-col items-center bg-pink-300"
       style={{
         backgroundImage: `url(${backgroundImage.src})`,
         width: "100%",
@@ -119,7 +119,7 @@ const ConstructionPage = async () => {
            
       <h3
         aria-label="announcement header"
-        className="w-full text-center m-4 text-xl  bg-slate-100 max-w-[50ch] rounded"
+        className=" bg-slate-100 m-4 w-full max-w-[50ch] rounded text-center text-xl"
       >
                 Hey, site&apos;s still under construction so expect everything
         to be         broken, but if you&apos;d like to see it take shape feel
@@ -127,7 +127,7 @@ const ConstructionPage = async () => {
       </h3>
             <Link
         href="/dev-blog"
-        className="text-2xl bg-slate-50 p-2 rounded  hover:bg-blue-200 "
+        className=" hover:bg-blue-200 rounded bg-slate-50 p-2 text-2xl "
       >
                 I made the framework for starting a tiny dev blog! still not
         responsive         or anything yet though 😔😔      
@@ -135,13 +135,13 @@ const ConstructionPage = async () => {
             <MyFriendBadge />
             <FriendBadgeContainer />
       <article
-        className="border border-black border-1  flex flex-col items-center 
-						  w-1/2 rounded bg-indigo-100 max-w-[100ch] p-4"
+        className="border-1  flex w-1/2 max-w-[100ch] flex-col items-center 
+						  rounded border border-black bg-indigo-100 p-4"
       >
                
         <h1
           aria-label="checklist header"
-          className=" font-medium text-4xl pb-4"
+          className=" pb-4 text-4xl font-medium"
         >
                     Basic framework needs:        
         </h1>
@@ -336,14 +336,14 @@ const MyFriendBadge = () => {
 </a>`;
 
   return (
-    <div className="friend-badge__container m-4 flex flex-col gap-1 justify-center items-center">
+    <div className="friend-badge__container m-4 flex flex-col items-center justify-center gap-1">
            
       <FriendBadge
         key={crypto.randomUUID()}
         blogUrl={temporaryBadgeData.blogUrl}
         blogName={temporaryBadgeData.blogName}
         imagueUrl={temporaryBadgeData.imageUrl}
-      />      <figure className="codeblock__container max-w-[30ch] mt-1">
+      />      <figure className="codeblock__container mt-1 max-w-[30ch]">
                
         <CopyBlock
           text={codeSnippet}

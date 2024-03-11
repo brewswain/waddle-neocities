@@ -21,7 +21,7 @@ export function createClient(cookieStore: ReturnType<typeof cookies>) {
             cookieStore.set({ name, value: "", ...options });
           },
         },
-      }
+      },
     );
   }
   throw new Error("Invalid credentials, please check your .env configuration");

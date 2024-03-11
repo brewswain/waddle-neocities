@@ -30,14 +30,14 @@ const ScrollableNavbar = () => {
 
   return (
     <nav
-      className={`flex justify-around w-dvw bg-slate-700 text-lg h-12 font-medium items-center fixed top-0 transition text-slate-400 ${
+      className={`fixed top-0 flex h-12 w-dvw items-center justify-around bg-slate-700 text-lg font-medium text-slate-400 transition ${
         hide ? "-translate-y-[50px]" : ""
       }  sm:justify-center sm:gap-10 `}
     >
-      <Link href="/dev-blog" className="hover:text-slate-300 transition">
+      <Link href="/dev-blog" className="transition hover:text-slate-300">
         Dev Blog
       </Link>
-      <Link href="/" className="hover:text-slate-300 transition">
+      <Link href="/" className="transition hover:text-slate-300">
         Home
       </Link>
     </nav>

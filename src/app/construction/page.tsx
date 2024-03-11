@@ -20,7 +20,7 @@ const ConstructionPage = async () => {
 
   return (
     <main
-      className="construction__checklist flex flex-col min-h-dvh items-center bg-pink-300"
+      className="construction__checklist flex min-h-dvh flex-col items-center bg-pink-300"
       style={{
         backgroundImage: `url(${backgroundImage.src})`,
         width: "100%",
@@ -34,7 +34,7 @@ const ConstructionPage = async () => {
 
       <h3
         aria-label="announcement header"
-        className="w-full text-center m-4 text-xl  bg-slate-100 max-w-[50ch] rounded "
+        className="m-4 w-full max-w-[50ch] rounded  bg-slate-100 text-center text-xl "
       >
         Hey, site&apos;s still under construction so expect everything to be
         broken, but if you&apos;d like to see it take shape feel free to check
@@ -43,10 +43,10 @@ const ConstructionPage = async () => {
 
       <FriendBadgeContainer />
 
-      <article className="border border-black border-1  flex flex-col items-center rounded bg-indigo-100 max-w-dvw sm:max-w-[100ch] p-4">
+      <article className="border-1 max-w-dvw flex  flex-col items-center rounded border border-black bg-indigo-100 p-4 sm:max-w-[100ch]">
         <h1
           aria-label="checklist header"
-          className=" font-medium text-4xl pb-4"
+          className=" pb-4 text-4xl font-medium"
         >
           Basic framework needs:
         </h1>

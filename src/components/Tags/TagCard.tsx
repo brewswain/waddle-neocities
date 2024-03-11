@@ -13,7 +13,7 @@ const TagCard = ({ tag, dropdown }: TagCardProps) => {
   const handleClick = (
     event:
       | React.MouseEvent<HTMLSpanElement, MouseEvent>
-      | React.KeyboardEvent<HTMLSpanElement>
+      | React.KeyboardEvent<HTMLSpanElement>,
   ) => {
     event.preventDefault();
 
@@ -32,20 +32,20 @@ const TagCard = ({ tag, dropdown }: TagCardProps) => {
   };
   return (
     <span
-      className={`text-sm  px-2 cursor-pointer
-              z-[2] transition ${
+      className={`z-[2]  cursor-pointer px-2
+              text-sm transition ${
                 dropdown
                   ? `rounded p-1 text-slate-100 ${
                       selectedTags.includes(tag)
-                        ? " hover:bg-green-400  bg-green-500 text-slate-50"
-                        : " hover:bg-slate-600 bg-slate-700 hover:text-slate-100 "
+                        ? " bg-green-500  text-slate-50 hover:bg-green-400"
+                        : " bg-slate-700 hover:bg-slate-600 hover:text-slate-100 "
                     }`
                   : `rounded-2xl   ${
                       selectedTags.includes(tag)
                         ? "bg-green-500 text-slate-50"
                         : tag === "New!"
-                        ? "bg-teal-500 text-slate-100"
-                        : "bg-slate-700 text-slate-300 "
+                          ? "bg-teal-500 text-slate-100"
+                          : "bg-slate-700 text-slate-300 "
                     }`
               }`}
       key={crypto.randomUUID()}
