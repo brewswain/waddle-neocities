@@ -7,26 +7,22 @@ import {
   getTopTracks,
 } from "@/app/music/api";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { readTopTracks } from "@/utils/server-utils/server-utils";
 import spotifyApi from "@/utils/spotify/spotify";
 import { useContext, useEffect, useState } from "react";
 // import fs from "fs/promises"; // Import Node.js filesystem module
 
-const PlaylistGenerator = () => {
+interface PlaylistGeneratorProps {
+  localFileTopTracks: SpotifyApi.UsersTopTracksResponse;
+}
+
+const PlaylistGenerator = ({ localFileTopTracks }: PlaylistGeneratorProps) => {
   const { authToken } = useContext(SpotifyContext);
   const [myTopTracks, setMyTopTracks] =
-    useState<SpotifyApi.UsersTopTracksResponse>();
-  const [localFileTopTracks, setLocalFileTopTracks] =
     useState<SpotifyApi.UsersTopTracksResponse>();
 
   const fetchData = async () => {
     try {
       const user = await getCurrentUser(authToken);
-
-      const tracks = await readTopTracks();
-
-      const parsedTracks: SpotifyApi.UsersTopTracksResponse =
-        JSON.parse(tracks);
 
       if (user.id === "brewswain") {
         const response = await getTopTracks({
@@ -35,7 +31,6 @@ const PlaylistGenerator = () => {
           write_to_file: true,
         });
         setMyTopTracks(response);
-        parsedTracks && setLocalFileTopTracks(parsedTracks);
       } else {
         const response = await getTopTracks({
           access_token: authToken,
@@ -81,6 +76,7 @@ const PlaylistGenerator = () => {
   //   generatePlaylist();
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return authToken ? (

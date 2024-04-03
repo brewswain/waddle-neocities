@@ -1,6 +1,6 @@
 import { baseUrl } from "@/utils/api-utils";
-import { writeToFile } from "@/utils/server-utils/server-utils";
 import spotifyApi, { scopes } from "@/utils/spotify/spotify";
+// import { writeToFile } from "@/utils/server-utils/server-utils";
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
@@ -144,9 +144,10 @@ export const getTopTracks = async ({
 
   const data = (await response).body;
 
-  if (write_to_file) {
-    writeToFile(data);
-  }
+  // Enable in dev only
+  // if (write_to_file) {
+  //   writeToFile(data);
+  // }
   return data;
 };
 

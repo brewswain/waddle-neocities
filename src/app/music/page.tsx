@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import fs from "fs"; // Import Node.js filesystem module
 
 import Image from "next/image";
 
@@ -15,6 +16,7 @@ import Navbar from "@/components/Navigation/Navbar";
 import PlaylistTray from "@/components/Music/PlaylistTray";
 
 import PageContent from "@/components/Music/PageContent";
+// import { readTopTracks } from "@/utils/server-utils/server-utils";
 
 const MusicPage = async () => {
   /*
@@ -34,6 +36,14 @@ const MusicPage = async () => {
   const artistData = await getArtistData("0ybFZ2Ab08V8hueghSXm6E");
   const playlistData = await getPlaylistData("69mxNa67RtcC4GOJ6GJlSW");
 
+  const readTopTracks = async () => {
+    return await fs.readFileSync("topTracks.json", "utf8");
+  };
+
+  const tracks = await readTopTracks();
+
+  const parsedTracks: SpotifyApi.UsersTopTracksResponse = JSON.parse(tracks);
+
   return (
     <main className="flex h-full min-h-dvh w-full flex-col items-center  text-slate-400">
       <div className="absolute top-0 z-10 w-screen overflow-auto sm:ml-4 sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
@@ -48,7 +58,10 @@ const MusicPage = async () => {
       {/* <Suspense>
         <Auth />
       </Suspense> */}
-      <PageContent playlistData={playlistData} />
+      <PageContent
+        playlistData={playlistData}
+        localFileTopTracks={parsedTracks}
+      />
     </main>
   );
 };

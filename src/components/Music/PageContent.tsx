@@ -4,7 +4,7 @@ import { usePalette } from "color-thief-react";
 import ImageHeader from "./ImageHeader";
 import MainPlaylist from "./MainPlaylist";
 import TextSprawl from "./TextSprawl";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CloseIcon from "../atoms/icons/CloseIcon";
 import PlaylistGenerator from "./PlaylistGenerator";
 import { getCurrentUser } from "@/app/music/api";
@@ -13,15 +13,18 @@ import { useSearchParams } from "next/navigation";
 
 interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
+  localFileTopTracks: SpotifyApi.UsersTopTracksResponse;
 }
-const PageContent = ({ playlistData }: PageContentProps) => {
+const PageContent = ({
+  playlistData,
+  localFileTopTracks,
+}: PageContentProps) => {
   const [showGenerator, setShowGenerator] = useState(false);
   const [currentUser, setCurrentUser] =
     useState<SpotifyApi.CurrentUsersProfileResponse>();
+  const [hashParams, setHashParams] = useState<string[]>([]);
 
   const { authToken, setAuthToken } = useContext(SpotifyContext);
-
-  const hashParams = window.location.hash.substr(1).split("&");
 
   interface Params {
     [key: string]: string;
@@ -42,6 +45,11 @@ const PageContent = ({ playlistData }: PageContentProps) => {
   const { data, loading, error } = usePalette(imageUrl, 3, "hex", {
     crossOrigin: "anonymous",
   });
+
+  useEffect(() => {
+    const paramsState = window.location.hash.substr(1).split("&");
+    setHashParams(paramsState);
+  }, []);
 
   return (
     <>
@@ -83,7 +91,7 @@ const PageContent = ({ playlistData }: PageContentProps) => {
               >
                 <CloseIcon />
               </div>
-              <PlaylistGenerator />
+              <PlaylistGenerator localFileTopTracks={localFileTopTracks} />
             </article>
           )}
         </section>
