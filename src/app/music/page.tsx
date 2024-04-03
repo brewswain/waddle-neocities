@@ -25,7 +25,7 @@ const MusicPage = async () => {
    IDEA FOR GETTING DYNAMIC CONTENT TO BE RENDERED ON HOMEPAGE-- In dev, we pull the data on load, and then dump our responses to a JSON file, which we then read our data from. It has to be able to overwrite said JSON file 
    */
 
-  const testArtist = await getArtistData("0ybFZ2Ab08V8hueghSXm6E");
+  const artistData = await getArtistData("0ybFZ2Ab08V8hueghSXm6E");
   const playlistData = await getPlaylistData("69mxNa67RtcC4GOJ6GJlSW");
 
   return (
@@ -48,7 +48,6 @@ const MusicPage = async () => {
         <Auth />
       </Suspense> */}
       <PlaylistInfo playlistData={playlistData} />
-      {/* <TagsContainer tags={testArtist.genres} /> */}
     </main>
   );
 };
