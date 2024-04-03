@@ -15,7 +15,7 @@ interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
 }
 const PageContent = ({ playlistData }: PageContentProps) => {
-  const [showGenerator, setShowGenerator] = useState(false);
+  const [showGenerator, setShowGenerator] = useState(true);
   const [currentUser, setCurrentUser] =
     useState<SpotifyApi.CurrentUsersProfileResponse>();
 
@@ -42,18 +42,6 @@ const PageContent = ({ playlistData }: PageContentProps) => {
   const { data, loading, error } = usePalette(imageUrl, 3, "hex", {
     crossOrigin: "anonymous",
   });
-
-  // const fetchData = async () => {
-  //   const response = await getCurrentUser();
-
-  //   response && setCurrentUser(response.body);
-  // };
-
-  // useEffect(() => {
-  //   if (showGenerator) {
-  //     fetchData();
-  //   }
-  // });
 
   return (
     <>

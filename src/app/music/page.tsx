@@ -2,7 +2,12 @@ import { Suspense } from "react";
 
 import Image from "next/image";
 
-import { getArtistData, getCurrentUser, getPlaylistData } from "./api";
+import {
+  getArtistData,
+  getCurrentUser,
+  getPlaylistData,
+  getTopTracks,
+} from "./api";
 
 import TagsContainer from "@/components/Tags/TagsContainer";
 import Auth from "@/components/Music/Auth";

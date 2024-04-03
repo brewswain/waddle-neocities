@@ -1,8 +1,6 @@
 import { baseUrl } from "@/utils/api-utils";
-import spotifyApi, {
-  refreshAccessToken,
-  scopes,
-} from "@/utils/spotify/spotify";
+import { writeToFile } from "@/utils/server-utils/server-utils";
+import spotifyApi, { scopes } from "@/utils/spotify/spotify";
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
@@ -130,6 +128,26 @@ export const getCurrentUser = async (auth_token: string) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getTopTracks = async ({
+  access_token,
+  limit,
+  write_to_file,
+}: {
+  access_token: string;
+  limit: number;
+  write_to_file: boolean;
+}) => {
+  await spotifyApi.setAccessToken(access_token);
+  const response = spotifyApi.getMyTopTracks({ limit });
+
+  const data = (await response).body;
+
+  if (write_to_file) {
+    writeToFile(data);
+  }
+  return data;
 };
 
 export const findUser = async (access_token: string, user_id: string) => {
