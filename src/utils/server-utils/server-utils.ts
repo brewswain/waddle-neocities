@@ -15,3 +15,7 @@ export const writeToFile = async (data: SpotifyApi.UsersTopTracksResponse) => {
 
   return;
 };
+
+export const readTopTracks = async () => {
+  return await fs.readFileSync("topTracks.json", "utf8");
+};
