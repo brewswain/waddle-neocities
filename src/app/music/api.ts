@@ -97,19 +97,13 @@ export const getUserToken = async (code: string, state: string) => {
   }
 };
 
-export const getCurrentUser = async (access_token: string) => {
+export const getCurrentUser = async () => {
+  await getSpotifyAccessToken();
+
   try {
-    if (access_token) {
-      const response = await fetch("https://api.spotify.com/v1/me", {
-        headers: {
-          Authorization: "Bearer " + access_token,
-        },
-      });
+    const response = await spotifyApi.getMe();
 
-      const data = await response.json();
-
-      return data;
-    }
+    return response;
   } catch (error) {
     console.error(error);
   }
