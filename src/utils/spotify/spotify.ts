@@ -34,9 +34,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: redirect_uri,
 });
 
-export default spotifyApi;
-
-const refreshAccessToken = async (token: any) => {
+export const refreshAccessToken = async (token: any) => {
   try {
     spotifyApi.setAccessToken(token.accessToken);
     spotifyApi.setRefreshToken(token.refreshToken);
@@ -101,3 +99,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
+
+export default spotifyApi;

@@ -15,7 +15,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ includeVerticalView }: NavbarProps) => {
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const pathname = usePathname();
 
   return (

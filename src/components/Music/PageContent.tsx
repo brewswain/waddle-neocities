@@ -4,10 +4,12 @@ import { usePalette } from "color-thief-react";
 import ImageHeader from "./ImageHeader";
 import MainPlaylist from "./MainPlaylist";
 import TextSprawl from "./TextSprawl";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CloseIcon from "../atoms/icons/CloseIcon";
 import PlaylistGenerator from "./PlaylistGenerator";
 import { getCurrentUser } from "@/app/music/api";
+import { SpotifyContext } from "@/context/SpotifyContext";
+import { useSearchParams } from "next/navigation";
 
 interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
@@ -17,24 +19,41 @@ const PageContent = ({ playlistData }: PageContentProps) => {
   const [currentUser, setCurrentUser] =
     useState<SpotifyApi.CurrentUsersProfileResponse>();
 
-  const playlistId = playlistData.id;
+  const { authToken, setAuthToken } = useContext(SpotifyContext);
 
+  const hashParams = window.location.hash.substr(1).split("&");
+
+  interface Params {
+    [key: string]: string;
+  }
+  const params: Params = {};
+  for (let i = 0; i < hashParams.length; i++) {
+    const [key, value] = hashParams[i].split("=");
+    params[key] = decodeURIComponent(value);
+  }
+
+  if (params.access_token && params.state) {
+    setAuthToken(params.access_token);
+  }
+
+  const playlistId = playlistData.id;
   const imageUrl = playlistData.images[0].url;
+
   const { data, loading, error } = usePalette(imageUrl, 3, "hex", {
     crossOrigin: "anonymous",
   });
 
-  const fetchData = async () => {
-    const response = await getCurrentUser();
+  // const fetchData = async () => {
+  //   const response = await getCurrentUser();
 
-    response && setCurrentUser(response.body);
-  };
+  //   response && setCurrentUser(response.body);
+  // };
 
-  useEffect(() => {
-    if (showGenerator) {
-      fetchData();
-    }
-  });
+  // useEffect(() => {
+  //   if (showGenerator) {
+  //     fetchData();
+  //   }
+  // });
 
   return (
     <>
@@ -76,7 +95,7 @@ const PageContent = ({ playlistData }: PageContentProps) => {
               >
                 <CloseIcon />
               </div>
-              <PlaylistGenerator user={currentUser} />
+              <PlaylistGenerator />
             </article>
           )}
         </section>

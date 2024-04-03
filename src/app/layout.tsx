@@ -7,6 +7,7 @@ import TagProvider from "@/context/TagsContext";
 
 import "./globals.scss";
 import CustomSessionProvider from "@/context/CustomSessionContext";
+import CustomSpotifyProvider from "@/context/SpotifyContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const merriweather = Merriweather({
@@ -32,7 +33,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${merriweather.variable}`}>
         <CustomSessionProvider>
-          <TagProvider>{children}</TagProvider>
+          <CustomSpotifyProvider>
+            <TagProvider>{children}</TagProvider>
+          </CustomSpotifyProvider>
         </CustomSessionProvider>
       </body>
     </html>

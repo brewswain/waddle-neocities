@@ -1,5 +1,8 @@
 import { baseUrl } from "@/utils/api-utils";
-import spotifyApi, { scopes } from "@/utils/spotify/spotify";
+import spotifyApi, {
+  refreshAccessToken,
+  scopes,
+} from "@/utils/spotify/spotify";
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
@@ -22,6 +25,7 @@ const getSpotifyAccessToken = async () => {
 
     const data = await accessTokenResponse.json();
     spotifyApi.setAccessToken(data.access_token);
+    spotifyApi.setRefreshToken(data.refresh_token);
     return data;
   } catch (error) {
     console.error(error);
@@ -45,7 +49,7 @@ export const getPlaylistData = async (playlistId: string) => {
 };
 
 export const authorizeUser = async () => {
-  const state = "test_string_here";
+  const state = crypto.randomUUID();
 
   const queryString = {
     response_type: "code",
@@ -63,6 +67,21 @@ export const authorizeUser = async () => {
     window.location.href = authorizationUrl;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getImplicitAuthorization = async () => {
+  const state = crypto.randomUUID();
+  if (clientId) {
+    localStorage.setItem("spotify_state", state);
+    let url = "https://accounts.spotify.com/authorize";
+    url += "?response_type=token";
+    url += "&client_id=" + encodeURIComponent(clientId);
+    url += "&scope=" + encodeURIComponent(scopes);
+    url += "&redirect_uri=" + encodeURIComponent(redirect_uri);
+    url += "&state=" + encodeURIComponent(state);
+
+    window.location.href = url;
   }
 };
 
@@ -97,13 +116,17 @@ export const getUserToken = async (code: string, state: string) => {
   }
 };
 
-export const getCurrentUser = async () => {
-  await getSpotifyAccessToken();
-
+export const getCurrentUser = async (auth_token: string) => {
   try {
-    const response = await spotifyApi.getMe();
+    if (auth_token) {
+      const response = await fetch("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: "Bearer " + auth_token,
+        },
+      });
 
-    return response;
+      return response.json();
+    }
   } catch (error) {
     console.error(error);
   }

@@ -1,16 +1,50 @@
+import {
+  authorizeUser,
+  getCurrentUser,
+  getImplicitAuthorization,
+} from "@/app/music/api";
+import { SpotifyContext } from "@/context/SpotifyContext";
+import spotifyApi from "@/utils/spotify/spotify";
+import { useContext } from "react";
+
 interface PlaylistGeneratorProps {
-  user: SpotifyApi.UserProfileResponse | undefined;
+  user?: SpotifyApi.UserProfileResponse;
 }
 
 const PlaylistGenerator = ({ user }: PlaylistGeneratorProps) => {
-  console.log({ user });
+  const { authToken } = useContext(SpotifyContext);
+
+  const fetchData = async () => {
+    try {
+      const response = await getCurrentUser(authToken);
+
+      console.log({ response });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  if (authToken) {
+    fetchData();
+  }
+
+  return authToken ? (
+    <div>Authenticated!</div>
+  ) : (
+    <button onClick={() => getImplicitAuthorization()}>login</button>
+  );
   if (!user)
     return (
       <>
-        <button onClick={() => {}}>Sign In</button>
+        <button
+          onClick={() => {
+            authorizeUser();
+          }}
+        >
+          Sign In
+        </button>
       </>
     );
-  return <div>Authenticated!</div>;
+  return;
 };
 
 export default PlaylistGenerator;
