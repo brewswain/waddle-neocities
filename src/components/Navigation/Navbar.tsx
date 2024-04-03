@@ -53,7 +53,7 @@ const Navbar = ({ includeVerticalView }: NavbarProps) => {
             <NavLink href="/dev-blog" slug="Dev Blog" />
             <NavLink href="/about" slug="About" />
             <NavLink href="/webring" slug="Webring" />
-            <NavLink href="#" slug="Music" />
+            <NavLink href="/music" slug="Music" />
             <NavLink href="#" slug="Pokemon" />
             <NavLink href="#" slug="OC Corner" />
             <NavLink href="#" slug="Guestbook" />
