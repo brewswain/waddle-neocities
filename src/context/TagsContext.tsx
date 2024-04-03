@@ -1,7 +1,8 @@
 "use client";
 
-import React, {
+import  {
   Dispatch,
+  ReactNode,
   SetStateAction,
   createContext,
   useState,
@@ -20,7 +21,7 @@ export const TagContext = createContext<TagContextInterface>({
   setInclusionMode: () => {},
 });
 
-const TagProvider = ({ children }: { children: React.ReactNode }) => {
+const TagProvider = ({ children }: { children: ReactNode }) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [inclusionMode, setInclusionMode] = useState<string>("&&");
 
