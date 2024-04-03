@@ -1,9 +1,9 @@
+import { baseUrl } from "@/utils/api-utils";
+import spotifyApi, { scopes } from "@/utils/spotify/spotify";
+
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
-const redirect_uri =
-  process.env.NODE_ENV !== "production"
-    ? "http://localhost:3000/music"
-    : "waddle.neocities.org/music";
+const redirect_uri = `${baseUrl}/music`;
 
 const getSpotifyAccessToken = async () => {
   try {
@@ -14,12 +14,14 @@ const getSpotifyAccessToken = async () => {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
           grant_type: "client_credentials",
-          client_id: clientId ? clientId : "can't_find_id",
-          client_secret: clientSecret ? clientSecret : "can't_find_secret",
+          client_id: clientId ? clientId : "cant_find_id",
+          client_secret: clientSecret ? clientSecret : "cant_find_secret",
         }),
       },
     );
-    const data = accessTokenResponse.json();
+
+    const data = await accessTokenResponse.json();
+    spotifyApi.setAccessToken(data.access_token);
     return data;
   } catch (error) {
     console.error(error);
@@ -27,25 +29,19 @@ const getSpotifyAccessToken = async () => {
 };
 
 export const getArtistData = async (artistId: string) => {
-  const accessTokenResponse = await getSpotifyAccessToken();
+  await getSpotifyAccessToken();
+  const response = spotifyApi.getArtist(artistId);
 
-  if (accessTokenResponse) {
-    try {
-      const response = await fetch(
-        `https://api.spotify.com/v1/artists/${artistId}`,
-        {
-          headers: {
-            Authorization: "Bearer " + accessTokenResponse.access_token,
-          },
-        },
-      );
-      const data = response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  console.error("Sorry, access token couldn't be found");
+  const data = (await response).body;
+  return data;
+};
+
+export const getPlaylistData = async (playlistId: string) => {
+  await getSpotifyAccessToken();
+  const response = spotifyApi.getPlaylist(playlistId);
+
+  const data = (await response).body;
+  return data;
 };
 
 export const authorizeUser = async () => {
@@ -54,7 +50,7 @@ export const authorizeUser = async () => {
   const queryString = {
     response_type: "code",
     client_id: clientId ? clientId : "client_id not found",
-    scope: "user-read-private user-read-email",
+    scope: scopes,
     redirect_uri,
     state,
   };
@@ -71,15 +67,9 @@ export const authorizeUser = async () => {
 };
 
 export const getUserToken = async (code: string, state: string) => {
-  if (!code || !state) {
-    window.location.href =
-      process.env.NODE_ENV !== "production"
-        ? "http://localhost:3000/music"
-        : "waddle.neocities.org/music";
+  if (state === null) {
+    window.location.href = `${baseUrl}/music`;
   } else {
-    const encodedAuthorization = Buffer.from(
-      clientId + ":" + clientSecret,
-    ).toString("base64");
     try {
       const tokenResponse = await fetch(
         "https://accounts.spotify.com/api/token",
@@ -87,7 +77,9 @@ export const getUserToken = async (code: string, state: string) => {
           method: "POST",
           headers: {
             "content-type": "application/x-www-form-urlencoded",
-            Authorization: "Basic " + encodedAuthorization,
+            Authorization:
+              "Basic " +
+              Buffer.from(clientId + ":" + clientSecret).toString("base64"),
           },
           body: new URLSearchParams({
             code: code,
@@ -121,4 +113,22 @@ export const getCurrentUser = async (access_token: string) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const findUser = async (access_token: string, user_id: string) => {
+  try {
+    if (access_token) {
+      const response = await fetch(
+        `https://api.spotify.com/v1/users/${user_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + access_token,
+          },
+        },
+      );
+      const data = await response.json();
+
+      return data;
+    }
+  } catch (error) {}
 };
