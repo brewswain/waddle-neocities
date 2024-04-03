@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Merriweather } from "next/font/google";
 
+import { SessionProvider } from "next-auth/react";
+
 import TagProvider from "@/context/TagsContext";
 
 import "./globals.scss";
+import CustomSessionProvider from "@/context/CustomSessionContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const merriweather = Merriweather({
@@ -28,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${merriweather.variable}`}>
-        <TagProvider>{children}</TagProvider>
+        <CustomSessionProvider>
+          <TagProvider>{children}</TagProvider>
+        </CustomSessionProvider>
       </body>
     </html>
   );
