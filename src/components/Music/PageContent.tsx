@@ -15,7 +15,7 @@ interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
 }
 const PageContent = ({ playlistData }: PageContentProps) => {
-  const [showGenerator, setShowGenerator] = useState(true);
+  const [showGenerator, setShowGenerator] = useState(false);
   const [currentUser, setCurrentUser] =
     useState<SpotifyApi.CurrentUsersProfileResponse>();
 

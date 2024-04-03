@@ -150,6 +150,37 @@ export const getTopTracks = async ({
   return data;
 };
 
+export const getRecommendations = async (trackIds: string[]) => {
+  try {
+    const response = spotifyApi.getRecommendations({
+      min_energy: 0.4,
+      seed_tracks: trackIds,
+    });
+
+    return (await response).body;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createPlaylist = async (trackURIs: string[]) => {
+  try {
+    const response = spotifyApi.createPlaylist("Blee's choice", {
+      description:
+        "A curated playlist made by combining reccs from both you and I!",
+      public: true,
+    });
+
+    const playlist = (await response).body;
+    console.log({ playlist });
+
+    spotifyApi.addTracksToPlaylist(playlist.id, trackURIs);
+    return playlist.id;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const findUser = async (access_token: string, user_id: string) => {
   try {
     if (access_token) {

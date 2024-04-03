@@ -1,7 +1,9 @@
 import {
   authorizeUser,
+  createPlaylist,
   getCurrentUser,
   getImplicitAuthorization,
+  getRecommendations,
   getTopTracks,
 } from "@/app/music/api";
 import { SpotifyContext } from "@/context/SpotifyContext";
@@ -47,24 +49,50 @@ const PlaylistGenerator = () => {
     }
   };
 
-  const getRecommendations = async () => {
+  const generatePlaylist = async () => {
     const myTrackIds = myTopTracks?.items.map((track) => track.id);
     const localFileTrackIds = localFileTopTracks?.items.map(
       (track) => track.id,
     );
 
     if (myTrackIds && localFileTrackIds) {
-      const trackIds = myTrackIds?.concat(localFileTrackIds);
+      //   const trackIds = myTrackIds?.concat(localFileTrackIds);
+      const trackIds = myTrackIds.slice(0, 5); // limit of 5 which sucks
+      const localTrackIds = localFileTrackIds.slice(0, 5);
+
+      const useRecommendationPlaylist = await getRecommendations(trackIds);
+      const localRecommendationPlaylist =
+        await getRecommendations(localTrackIds);
+
+      const trackUris = useRecommendationPlaylist?.tracks.map(
+        (track) => track.uri,
+      );
+      const localTrackUris = localRecommendationPlaylist?.tracks.map(
+        (track) => track.uri,
+      );
+
+      if (trackIds && localTrackUris) {
+        const combinedUris = trackUris?.concat(localTrackUris);
+        await createPlaylist(combinedUris!);
+      }
     }
   };
 
-  getRecommendations();
+  //   generatePlaylist();
   useEffect(() => {
     fetchData();
   }, []);
 
   return authToken ? (
     <div className="flex flex-col">
+      {localFileTopTracks && myTopTracks ? (
+        <button
+          className="mt-4 w-[200px] rounded-3xl bg-[#21d760] p-2 font-bold text-black"
+          onClick={() => generatePlaylist()}
+        >
+          do it
+        </button>
+      ) : null}
       <h1 className="text-2xl font-bold">These are your top 5 songs</h1>
       <ol className="flex flex-col">
         {myTopTracks?.items.map((track, index) => (

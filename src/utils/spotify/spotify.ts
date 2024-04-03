@@ -17,8 +17,8 @@ export const scopes = [
   "user-read-email",
   "user-top-read",
   "user-library-read",
-  "user-read-playback-state",
-  "user-modify-playback-state",
+  "playlist-modify-public",
+  "playlist-modify-private",
 ].join(","); // join separates each of our values by a comma as one string
 
 const params = {
