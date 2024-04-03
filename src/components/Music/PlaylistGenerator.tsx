@@ -47,6 +47,18 @@ const PlaylistGenerator = () => {
     }
   };
 
+  const getRecommendations = async () => {
+    const myTrackIds = myTopTracks?.items.map((track) => track.id);
+    const localFileTrackIds = localFileTopTracks?.items.map(
+      (track) => track.id,
+    );
+
+    if (myTrackIds && localFileTrackIds) {
+      const trackIds = myTrackIds?.concat(localFileTrackIds);
+    }
+  };
+
+  getRecommendations();
   useEffect(() => {
     fetchData();
   }, []);
