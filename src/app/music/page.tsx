@@ -2,13 +2,14 @@ import { Suspense } from "react";
 
 import Image from "next/image";
 
-import { getArtistData, getPlaylistData } from "./api";
+import { getArtistData, getCurrentUser, getPlaylistData } from "./api";
 
 import TagsContainer from "@/components/Tags/TagsContainer";
 import Auth from "@/components/Music/Auth";
 import Navbar from "@/components/Navigation/Navbar";
 import PlaylistTray from "@/components/Music/PlaylistTray";
-import PlaylistInfo from "@/components/Music/PlaylistInfo";
+
+import PageContent from "@/components/Music/PageContent";
 
 const MusicPage = async () => {
   /*
@@ -29,7 +30,7 @@ const MusicPage = async () => {
   const playlistData = await getPlaylistData("69mxNa67RtcC4GOJ6GJlSW");
 
   return (
-    <main className="flex w-full flex-col items-center bg-slate-800 text-slate-400">
+    <main className="flex h-full min-h-dvh w-full flex-col items-center  text-slate-400">
       <div className="absolute top-0 z-10 w-screen overflow-auto sm:ml-4 sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
         <Navbar includeVerticalView />
       </div>
@@ -39,15 +40,10 @@ const MusicPage = async () => {
       {/* Make our own playlist UI, make it look like the primary one but allow for custom theming and also the ability to put stuff stick individually etc,  allowing the currently playing playlist to be the only sticky one */}
 
       {/* <PlaylistTray /> */}
-
-      {/* <h1>API Test!</h1>
-      <h2>Artist</h2>
-      <p>{testArtist.name}</p> */}
-
       {/* <Suspense>
         <Auth />
       </Suspense> */}
-      <PlaylistInfo playlistData={playlistData} />
+      <PageContent playlistData={playlistData} />
     </main>
   );
 };
