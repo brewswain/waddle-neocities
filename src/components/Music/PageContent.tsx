@@ -81,6 +81,7 @@ const PageContent = ({
             </Link>
           </article>
 
+          {/* Re-enable when I actually have blogposts */}
           <BlogPosts />
         </section>
       )}
