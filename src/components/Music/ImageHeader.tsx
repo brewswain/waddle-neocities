@@ -14,7 +14,7 @@ const ImageHeader = ({ playlistData }: ImageHeaderProps) => {
         height={450}
         className="hidden md:block"
       />
-      <h1 className=" pt-4 text-center text-4xl font-semibold text-white opacity-80 sm:pl-4 sm:text-left md:text-9xl">
+      <h1 className=" w-full pt-4 text-center text-4xl font-semibold text-white opacity-80 sm:mt-8 sm:pl-4 md:text-9xl lg:text-left">
         Welcome, traveller.
       </h1>
     </div>

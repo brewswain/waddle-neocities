@@ -30,7 +30,7 @@ const Navbar = ({ includeVerticalView }: NavbarProps) => {
     // TODO: Add active Links
 
     <nav
-      className={`flex flex-col bg-slate-100 px-4 py-2 pl-10 sm:flex-row  sm:px-10 lg:w-full lg:max-w-full ${includeVerticalView ? "sm:h-full sm:w-full sm:self-end sm:justify-self-end md:static md:mr-4 md:max-w-[200px] md:self-end" : "sm:w-[100vw] sm:max-w-[100vw] lg:justify-center lg:gap-[50px]"} navbar__container`}
+      className={`flex flex-col bg-slate-100 px-4 py-2 pl-10 sm:flex-row  sm:px-10 lg:w-full lg:max-w-full ${includeVerticalView ? "sm:h-full sm:w-full sm:self-end sm:justify-self-end md:static md:self-end" : "sm:w-[100vw] sm:max-w-[100vw] lg:justify-center lg:gap-[50px]"} navbar__container`}
     >
       <button
         type="button"
@@ -55,7 +55,7 @@ const Navbar = ({ includeVerticalView }: NavbarProps) => {
       ) : (
         <section className="sm:flex sm:h-full sm:justify-center">
           <ul
-            className={`flex h-full justify-around gap-4 pl-4 text-center sm:flex-row sm:pl-0 lg:w-full lg:gap-2 ${includeVerticalView ? "lg: flex-col md:items-center" : "w-dvw flex-row items-center justify-center lg:justify-center lg:gap-[50px]"}`}
+            className={`flex h-full justify-around gap-4 pl-4 text-center sm:flex-row sm:pl-0 lg:w-full  lg:gap-2 ${includeVerticalView ? "lg: flex-col md:items-center" : "w-dvw flex-row items-center justify-center lg:justify-center lg:gap-[50px]"}`}
           >
             <NavLink href="/" slug="Home" />
             <NavLink href="/dev-blog" slug="Dev Blog" />

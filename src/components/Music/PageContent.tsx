@@ -10,6 +10,7 @@ import PlaylistGenerator from "./PlaylistGenerator";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import BlogPosts from "./BlogPosts";
 
 interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
@@ -79,6 +80,8 @@ const PageContent = ({
               Let&apos;s do it!
             </Link>
           </article>
+
+          <BlogPosts />
         </section>
       )}
     </>

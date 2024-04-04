@@ -10,7 +10,7 @@ const MainPlaylist = ({ playlistId }: MainPlaylistProps) => {
         width="300"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
-        className="left-5 top-28 h-40 w-full md:absolute md:h-[90%] md:w-[300px]"
+        className="left-5 top-28 h-40 w-full sm:h-[400px] md:absolute md:h-[90%] md:w-[300px]"
       />
     </div>
   );

@@ -41,7 +41,7 @@ const MusicPage = async () => {
 
   return (
     <main className="flex h-full min-h-dvh w-full flex-col items-center  text-slate-400">
-      <div className="absolute top-0 z-10 w-screen sm:flex sm:self-center md:ml-4 md:mt-[20px] lg:h-[60px] lg:w-[830px]">
+      <div className="absolute top-0 z-10 w-full sm:flex sm:self-center md:ml-4 md:mt-[20px] lg:h-[60px] lg:w-[830px]">
         <Navbar includeVerticalView />
       </div>
       <PageContent

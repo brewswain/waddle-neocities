@@ -44,9 +44,9 @@ export default function Home() {
       }}
     >
       <section className="flex flex-col bg-no-repeat sm:flex-row sm:gap-4  md:justify-between md:pt-10 lg:flex-col lg:justify-start lg:gap-10">
-        <div className="sticky top-0 z-10 overflow-auto sm:ml-4 sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
+        {/* <div className="max-w-[screen] sticky top-0 z-10 overflow-auto sm:absolute sm:left-0 sm:flex  sm:w-full sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
           <Navbar includeVerticalView />
-        </div>
+        </div> */}
         <div className="lg: gap-4 sm:flex sm:flex-col sm:self-center lg:flex-row-reverse">
           <Preamble />
           <ButtonContainer />
