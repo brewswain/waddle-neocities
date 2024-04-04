@@ -3,7 +3,7 @@ import Navbar from "@/components/Navigation/Navbar";
 const AboutPage = () => {
   return (
     <main className="flex min-h-screen flex-col items-center bg-slate-300 px-4 md:pt-10">
-      <div className="absolute top-0 z-10 w-screen sm:flex sm:self-center md:ml-4 md:mt-[20px] lg:h-[60px] lg:w-[830px]">
+      <div className="absolute top-0 z-10 w-full sm:flex sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
         <Navbar includeVerticalView />
       </div>
       <h1 className="my-8 font-merriweather text-4xl  font-semibold">

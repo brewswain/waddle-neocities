@@ -1,5 +1,3 @@
-import React from "react";
-
 const BlogPosts = () => {
   const posts = [
     {
@@ -20,35 +18,18 @@ const BlogPosts = () => {
       date: "Jan 4 2022",
       href: "javascript:void(0)",
     },
-    {
-      title: "7 Promising VS Code Extensions Introduced in 2022",
-      desc: "I hope I remembered all the stuff that they needed to know. They're like, 'okay,' and write it in their little reading notebooks. I realized today that I have all this stuff that",
-      img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      authorLogo: "https://randomuser.me/api/portraits/men/46.jpg",
-      authorName: "Luis",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-    {
-      title: "How to Use Root C++ Interpreter Shell to Write C++ Programs",
-      desc: "The powerful gravity waves resulting from the impact of the planets' moons â€” four in total â€” were finally resolved in 2015 when gravitational microlensing was used to observe the",
-      img: "https://images.unsplash.com/photo-1617529497471-9218633199c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      authorLogo: "https://api.uifaces.co/our-content/donated/KtCFjlD4.jpg",
-      authorName: "Lourin",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
   ];
 
   return (
-    <section className="mx-auto mt-12 max-w-screen-xl md:px-8">
-      <div className="mt-12 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="mx-auto mt-12 flex w-full max-w-screen-lg justify-center md:px-8 lg:pl-[350px] 2xl:pl-0">
+      <div className="mt-12 grid gap-2 sm:grid-cols-2">
         {posts.map((items, key) => (
           <article
             className="mt-4 max-w-sm rounded-md bg-white shadow-lg duration-300 hover:shadow-sm"
             key={key}
           >
-            <a href={items.href} className="">
+            <a href={items.href}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={items.img}
                 loading="lazy"

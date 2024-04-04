@@ -61,13 +61,13 @@ const PageContent = ({
             background: `linear-gradient(180deg, ${data[0]} 0%, rgba(0,0,0,1) 60%)`,
           }}
         >
-          <article className="flex flex-col pt-28 lg:pl-[350px]">
+          <article className="flex flex-col pt-28 lg:pl-[350px] 2xl:pl-0">
             <MainPlaylist playlistId={playlistId} />
             <ImageHeader playlistData={playlistData} />
             <TextSprawl />
           </article>
-          <article className="flex flex-col items-center pt-10">
-            <span className="px-4 text-center">
+          <article className="flex flex-col items-center pt-10 md:pt-20 lg:pl-[350px] 2xl:pl-0">
+            <span className="max-w-[75ch] px-4 text-center text-lg font-medium text-white opacity-70">
               Or maybe, you want to get recommended a playlist? I&apos;ll use my
               current top 10 songs as a seed, combined with your current top 5
               songs, and see what we get:
