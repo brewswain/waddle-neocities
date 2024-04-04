@@ -27,7 +27,7 @@ const NavLink = ({ href, slug }: NavLinkProps) => {
         <span
           className={` ${isNotHomePage ? "" : "ml-4 sm:ml-0"} ${
             pathname === href ? "navbar__link--underlined" : ""
-          } font-semibold`}
+          } font-semibold sm:text-sm md:text-base`}
         >
           {slug}
         </span>

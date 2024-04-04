@@ -10,7 +10,7 @@ const TextSprawl = () => {
         {/* <Link href={"/music/hodgepodge"}>currently interesting</Link> */}
         <Link href={"#"}>currently interesting</Link>
       </span>
-      to me at the moment.
+       to me at the moment.
     </p>
   );
 };

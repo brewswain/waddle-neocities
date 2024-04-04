@@ -21,27 +21,28 @@ const PlaylistGenerator = ({ localFileTopTracks }: PlaylistGeneratorProps) => {
     useState<SpotifyApi.UsersTopTracksResponse>();
 
   const fetchData = async () => {
-    try {
-      const user = await getCurrentUser(authToken);
+    const user = await getCurrentUser(authToken);
+    console.log({ user });
+    // try {
 
-      if (user.id === "brewswain") {
-        const response = await getTopTracks({
-          access_token: authToken,
-          limit: 10,
-          write_to_file: true,
-        });
-        setMyTopTracks(response);
-      } else {
-        const response = await getTopTracks({
-          access_token: authToken,
-          limit: 5,
-          write_to_file: false,
-        });
-        setMyTopTracks(response);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    //   if (user.id === "brewswain") {
+    //     const response = await getTopTracks({
+    //       access_token: authToken,
+    //       limit: 10,
+    //       write_to_file: true,
+    //     });
+    //     setMyTopTracks(response);
+    //   } else {
+    //     const response = await getTopTracks({
+    //       access_token: authToken,
+    //       limit: 5,
+    //       write_to_file: false,
+    //     });
+    //     setMyTopTracks(response);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const generatePlaylist = async () => {

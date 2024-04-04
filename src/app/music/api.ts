@@ -116,17 +116,13 @@ export const getUserToken = async (code: string, state: string) => {
 
 export const getCurrentUser = async (auth_token: string) => {
   try {
-    if (auth_token) {
-      const response = await fetch("https://api.spotify.com/v1/me", {
-        headers: {
-          Authorization: "Bearer " + auth_token,
-        },
-      });
+    await spotifyApi.setAccessToken(auth_token);
+    const response = spotifyApi.getMe();
+    const data = (await response).body;
 
-      return response.json();
-    }
+    return data;
   } catch (error) {
-    console.error(error);
+    console.error("getCurrentUser: ", error);
   }
 };
 
@@ -139,16 +135,20 @@ export const getTopTracks = async ({
   limit: number;
   write_to_file: boolean;
 }) => {
-  await spotifyApi.setAccessToken(access_token);
-  const response = spotifyApi.getMyTopTracks({ limit });
+  try {
+    await spotifyApi.setAccessToken(access_token);
+    const response = spotifyApi.getMyTopTracks({ limit });
 
-  const data = (await response).body;
+    const data = (await response).body;
 
-  // Enable in dev only
-  // if (write_to_file) {
-  //   writeToFile(data);
-  // }
-  return data;
+    // Enable in dev only
+    // if (write_to_file) {
+    //   writeToFile(data);
+    // }
+    return data;
+  } catch (error) {
+    console.error("getTopTracks: ", error);
+  }
 };
 
 export const getRecommendations = async (trackIds: string[]) => {

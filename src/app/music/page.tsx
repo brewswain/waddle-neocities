@@ -3,12 +3,7 @@ import fs from "fs"; // Import Node.js filesystem module
 
 import Image from "next/image";
 
-import {
-  getArtistData,
-  getCurrentUser,
-  getPlaylistData,
-  getTopTracks,
-} from "./api";
+import { getArtistData, getPlaylistData, getTopTracks } from "./api";
 
 import TagsContainer from "@/components/Tags/TagsContainer";
 import Auth from "@/components/Music/Auth";
@@ -46,18 +41,9 @@ const MusicPage = async () => {
 
   return (
     <main className="flex h-full min-h-dvh w-full flex-col items-center  text-slate-400">
-      <div className="absolute top-0 z-10 w-screen overflow-auto sm:ml-4 sm:flex sm:h-[530px] sm:flex-col sm:self-center md:mt-[20px] lg:h-[60px] lg:w-[830px]">
+      <div className="absolute top-0 z-10 w-screen sm:flex sm:self-center md:ml-4 md:mt-[20px] lg:h-[60px] lg:w-[830px]">
         <Navbar includeVerticalView />
       </div>
-
-      {/* spotify playlist */}
-
-      {/* Make our own playlist UI, make it look like the primary one but allow for custom theming and also the ability to put stuff stick individually etc,  allowing the currently playing playlist to be the only sticky one */}
-
-      {/* <PlaylistTray /> */}
-      {/* <Suspense>
-        <Auth />
-      </Suspense> */}
       <PageContent
         playlistData={playlistData}
         localFileTopTracks={parsedTracks}
