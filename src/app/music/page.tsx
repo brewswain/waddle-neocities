@@ -11,6 +11,7 @@ import Navbar from "@/components/Navigation/Navbar";
 import PlaylistTray from "@/components/Music/PlaylistTray";
 
 import PageContent from "@/components/Music/PageContent";
+import { createClient } from "@/utils/supabase/client";
 // import { readTopTracks } from "@/utils/server-utils/server-utils";
 
 const MusicPage = async () => {
@@ -27,6 +28,13 @@ const MusicPage = async () => {
   /*
    IDEA FOR GETTING DYNAMIC CONTENT TO BE RENDERED ON HOMEPAGE-- In dev, we pull the data on load, and then dump our responses to a JSON file, which we then read our data from. It has to be able to overwrite said JSON file 
    */
+  const supabase = createClient();
+
+  const { data: reviews, error } = await supabase
+    .from("reviews")
+    .select("slug");
+
+  console.log(reviews);
 
   const artistData = await getArtistData("0ybFZ2Ab08V8hueghSXm6E");
   const playlistData = await getPlaylistData("69mxNa67RtcC4GOJ6GJlSW");

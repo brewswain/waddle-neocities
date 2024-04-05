@@ -1,57 +1,51 @@
-const BlogPosts = () => {
-  const posts = [
-    {
-      title: "What is SaaS? Software as a Service Explained (TEST)",
-      desc: "Going into this journey, I had a standard therapy regimen, based on looking at the research literature. After I saw the movie, I started to ask other people what they did for their anxiety, and some",
-      img: "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      authorLogo: "https://api.uifaces.co/our-content/donated/xZ4wg2Xj.jpg",
-      authorName: "Sidi dev",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-    {
-      title: "A Quick Guide to WordPress Hosting (TEST)",
-      desc: "According to him, â€œI'm still surprised that this has happened. But we are surprised because we are so surprised.â€More revelations about Whittington will be featured in the film",
-      img: "https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-      authorLogo: "https://api.uifaces.co/our-content/donated/FJkauyEa.jpg",
-      authorName: "Micheal",
-      date: "Jan 4 2022",
-      href: "javascript:void(0)",
-    },
-  ];
+import Link from "next/link";
+import Image from "next/image";
 
+interface BlogPostsProps {
+  blogData: SpotifyApi.SingleAlbumResponse[];
+}
+
+const BlogPosts = ({ blogData }: BlogPostsProps) => {
   return (
-    <section className="mx-auto mt-12 flex w-full max-w-screen-lg justify-center md:px-8 lg:pl-[350px] 2xl:pl-0">
-      <div className="mt-12 grid gap-2 sm:grid-cols-2">
-        {posts.map((items, key) => (
+    <section className="flex w-full flex-wrap justify-center pt-10">
+      {blogData.map((post) => {
+        const artistName =
+          post.artists.length > 1
+            ? post.artists.map((artist) => artist.name).join(", ")
+            : post.artists[0].name;
+
+        return (
           <article
-            className="mt-4 max-w-sm rounded-md bg-white shadow-lg duration-300 hover:shadow-sm"
-            key={key}
+            className="flex max-w-[350px] flex-col rounded-sm"
+            key={artistName + post.name}
           >
-            <a href={items.href}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={items.img}
-                loading="lazy"
-                alt={items.title}
-                className="h-48 w-full rounded-t-md"
+            <Link href={`/music/review/${post.name}`} className="flex flex-col">
+              <Image
+                src={post.images[0].url}
+                alt={artistName + post.name}
+                height={350}
+                width={350}
               />
-              <div className="mt-2 flex items-center pt-3">
-                <div className="ml-3">
-                  <span className="block text-sm text-gray-400">
-                    {items.date}
-                  </span>
+              <div className="px-4 pt-2">
+                <div className="text-center">
+                  <h1 className="text-2xl font-semibold">{post.name}</h1>
+                  <p>{artistName}</p>
+                </div>
+
+                <div className="flex h-[40px] flex-wrap gap-1 py-2">
+                  {post.genres.length
+                    ? post.genres.map((genre) => (
+                        <span key={genre} className="rounded bg-blue-500 p-1">
+                          {genre}
+                        </span>
+                      ))
+                    : null}
                 </div>
               </div>
-
-              <div className="mb-3 ml-4 mr-2 pt-3">
-                <h3 className="text-xl text-gray-900">{items.title}</h3>
-                <p className="mt-1 text-sm text-gray-400">{items.desc}</p>
-              </div>
-            </a>
+            </Link>
           </article>
-        ))}
-      </div>
+        );
+      })}
     </section>
   );
 };

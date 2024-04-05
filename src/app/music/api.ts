@@ -38,6 +38,18 @@ export const getArtistData = async (artistId: string) => {
   return data;
 };
 
+export const getAlbumData = async (albumId: string) => {
+  try {
+    await getSpotifyAccessToken();
+    const response = spotifyApi.getAlbum(albumId);
+
+    const data = (await response).body;
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getPlaylistData = async (playlistId: string) => {
   await getSpotifyAccessToken();
   const response = spotifyApi.getPlaylist(playlistId);

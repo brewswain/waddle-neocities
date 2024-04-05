@@ -8,9 +8,11 @@ import { useContext, useEffect, useState } from "react";
 import CloseIcon from "../atoms/icons/CloseIcon";
 import PlaylistGenerator from "./PlaylistGenerator";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import BlogPosts from "./BlogPosts";
+import WaitlistModal from "./WaitlistModal";
+import { getAlbumData } from "@/app/music/api";
 
 interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
@@ -24,6 +26,14 @@ const PageContent = ({
   const [currentUser, setCurrentUser] =
     useState<SpotifyApi.CurrentUsersProfileResponse>();
   const [hashParams, setHashParams] = useState<string[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [isRegistered, setIsRegistered] = useState();
+
+  const [blogposts, setBlogposts] = useState<SpotifyApi.SingleAlbumResponse[]>(
+    [],
+  );
+
+  const router = useRouter();
 
   const { authToken, setAuthToken } = useContext(SpotifyContext);
 
@@ -47,9 +57,33 @@ const PageContent = ({
     crossOrigin: "anonymous",
   });
 
+  const handleClick = () => {
+    const isRegistered = localStorage.getItem("isRegistered");
+
+    if (isRegistered) {
+      router.push("https://spotify-profile-api.vercel.app/music");
+    } else {
+      setShowModal(true);
+    }
+  };
+
+  const fetchAlbum = async () => {
+    // 1aCdrqjxp4duqTRne80ecY - so the flies dont come id
+    const response = await getAlbumData("1aCdrqjxp4duqTRne80ecY");
+
+    if (response) {
+      console.log(response);
+      setBlogposts([response]);
+    }
+    return response;
+  };
+
   useEffect(() => {
     const paramsState = window.location.hash.substr(1).split("&");
     setHashParams(paramsState);
+
+    // Temporarily get album info
+    fetchAlbum();
   }, []);
 
   return (
@@ -73,16 +107,18 @@ const PageContent = ({
               songs, and see what we get:
             </span>
 
-            <Link
-              href={"https://spotify-profile-api.vercel.app/music"}
+            <button
+              onClick={() => handleClick()}
               className="mt-4 w-[200px] rounded-3xl bg-[#21d760] p-2 text-center font-inter font-bold text-black"
             >
               Let&apos;s do it!
-            </Link>
+            </button>
           </article>
 
           {/* Re-enable when I actually have blogposts */}
-          <BlogPosts />
+          <BlogPosts blogData={blogposts} />
+
+          {!isRegistered ? <WaitlistModal /> : null}
         </section>
       )}
     </>
