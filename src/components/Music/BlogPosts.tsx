@@ -19,7 +19,7 @@ const BlogPosts = ({ blogData }: BlogPostsProps) => {
             className="flex max-w-[350px] flex-col rounded-sm"
             key={artistName + post.name}
           >
-            <Link href={`/music/review/${post.name}`} className="flex flex-col">
+            <Link href={`/music/review/${post.id}`} className="flex flex-col">
               <Image
                 src={post.images[0].url}
                 alt={artistName + post.name}

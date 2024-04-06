@@ -185,7 +185,6 @@ export const createPlaylist = async (trackURIs: string[]) => {
     });
 
     const playlist = (await response).body;
-    console.log({ playlist });
 
     spotifyApi.addTracksToPlaylist(playlist.id, trackURIs);
     return playlist.id;

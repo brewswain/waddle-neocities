@@ -30,12 +30,6 @@ const MusicPage = async () => {
    */
   const supabase = createClient();
 
-  const { data: reviews, error } = await supabase
-    .from("reviews")
-    .select("slug");
-
-  console.log(reviews);
-
   const artistData = await getArtistData("0ybFZ2Ab08V8hueghSXm6E");
   const playlistData = await getPlaylistData("69mxNa67RtcC4GOJ6GJlSW");
 

@@ -13,6 +13,7 @@ import Link from "next/link";
 import BlogPosts from "./BlogPosts";
 import WaitlistModal from "./WaitlistModal";
 import { getAlbumData } from "@/app/music/api";
+import * as Dialog from "@radix-ui/react-dialog";
 
 interface PageContentProps {
   playlistData: SpotifyApi.SinglePlaylistResponse;
@@ -58,13 +59,7 @@ const PageContent = ({
   });
 
   const handleClick = () => {
-    const isRegistered = localStorage.getItem("isRegistered");
-
-    if (isRegistered) {
-      router.push("https://spotify-profile-api.vercel.app/music");
-    } else {
-      setShowModal(true);
-    }
+    router.push("https://spotify-profile-api.vercel.app/music");
   };
 
   const fetchAlbum = async () => {
@@ -72,7 +67,6 @@ const PageContent = ({
     const response = await getAlbumData("1aCdrqjxp4duqTRne80ecY");
 
     if (response) {
-      console.log(response);
       setBlogposts([response]);
     }
     return response;
@@ -118,7 +112,7 @@ const PageContent = ({
           {/* Re-enable when I actually have blogposts */}
           <BlogPosts blogData={blogposts} />
 
-          {!isRegistered ? <WaitlistModal /> : null}
+          {!isRegistered ? null : null}
         </section>
       )}
     </>

@@ -22,7 +22,6 @@ const PlaylistGenerator = ({ localFileTopTracks }: PlaylistGeneratorProps) => {
 
   const fetchData = async () => {
     const user = await getCurrentUser(authToken);
-    console.log({ user });
     // try {
 
     //   if (user.id === "brewswain") {

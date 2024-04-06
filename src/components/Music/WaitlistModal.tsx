@@ -4,6 +4,10 @@ import * as Dialog from "@radix-ui/react-dialog";
 const WaitlistModal = () => {
   return (
     <Dialog.Root>
+      <Dialog.Trigger className="mt-4 w-[25ch] rounded-3xl bg-[#21d760] p-2 text-center font-inter font-bold text-black">
+        Register for early access
+      </Dialog.Trigger>
+
       <Dialog.Portal>
         <Dialog.Overlay className="data-[state=open]:animate-overlayShow def fixed inset-0 h-full w-full bg-black opacity-40" />
         <Dialog.Content className="fixed left-[50%] top-[50%] mx-auto w-full max-w-lg translate-x-[-50%] translate-y-[-50%] px-4">
