@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
 
 import {
   authorizeUser,
@@ -18,7 +17,6 @@ const Auth = () => {
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
   const state = searchParams.get("state");
-  const session = useSession();
 
   return code && state ? null : (
     <button onClick={() => authorizeUser()}>login</button>

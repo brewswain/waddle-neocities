@@ -1,14 +1,21 @@
 import { createClient } from "@/utils/supabase/client";
-import React from "react";
 import { getAlbumData } from "../../api";
+import ReviewContent from "./ReviewContent";
+import { redirect } from "next/navigation";
 
 const ReviewPage = async ({ params }: { params: { album_id: string } }) => {
   const { album_id } = params;
   const albumData = await getAlbumData(album_id);
 
-  const { artists, name, genres, tracks } = albumData;
+  if (albumData) {
+    return (
+      <main className="h-dvh bg-slate-500">
+        <ReviewContent albumData={albumData} />;
+      </main>
+    );
+  }
 
-  return <div>{album_id}</div>;
+  redirect("/music");
 };
 
 export default ReviewPage;
